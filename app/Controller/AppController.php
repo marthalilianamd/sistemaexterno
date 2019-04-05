@@ -31,5 +31,27 @@ App::uses('Controller', 'Controller');
  * @link		https://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
-    public $components = array('DebugKit.Toolbar');
+    public $components = array(
+        'DebugKit.Toolbar',
+        'RequestHandler',
+        'Session',
+        'Auth',
+        'Security');
+
+    //dividir las solicitudes de entrada para saber si es controlador de Rest o no
+    public function beforeFilter() {
+
+        if(in_array($this->params['controller'],array('usuarios_ws'))){
+            // For RESTful web service requests, we check the name of our contoller
+            $this->Auth->allow();
+            // this line should always be there to ensure that all rest calls are secure
+            //$this->Security->requireSecure();
+            $this->Security->unlockedActions = array('edit','delete','add','view');
+
+        }else{
+            // setup out Auth
+            $this->Auth->allow();
+        }
+    }
+
 }

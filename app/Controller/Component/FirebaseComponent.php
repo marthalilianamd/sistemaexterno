@@ -40,7 +40,7 @@ class FirebaseComponent extends Component
             'body' => $fields
         );
 
-        $HttpSocket = new HttpSocket(['ssl_allow_self_signed' => false, 'ssl_verify_peer' => false,'ssl_verify_host' => false]);
+        $HttpSocket = new HttpSocket();
         try {
             $response = $HttpSocket->post($url_firebase_send, $request);
             $code = $response->code;

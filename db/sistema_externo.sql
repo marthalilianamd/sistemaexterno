@@ -42,7 +42,7 @@ CREATE TABLE `mensajes` (
   `mensaje_id` int(11) NOT NULL,
   `gremio_id` int(11) NOT NULL,
   `usuario_id` int(11) NOT NULL,
-  `mensaje` text NOT NULL,
+  `mensaje` varchar(255) NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 

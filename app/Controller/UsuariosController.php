@@ -1,23 +1,25 @@
 <?php
 App::uses('AppController', 'Controller');
+
 /**
  * Usuarios Controller
  *
  * @property Usuario $Usuario
  * @property PaginatorComponent $Paginator
  * @property FlashComponent $Flash
+ * @method set_json(string $results)
  */
 class UsuariosController extends AppController {
 
     /**
      * Components
-     *
      * @var array
      */
     public $components = array(
         'Paginator',
         'Firebase',
-        'Flash'
+        'Flash',
+        'RequestHandler'
     );
 /**
  * index method
@@ -76,10 +78,10 @@ class UsuariosController extends AppController {
 		if (!$this->Usuario->exists($id)) {
 			throw new NotFoundException(__('Invalid usuario'));
 		}
-		if ($this->request->is(array('post', 'put'))) {
+		if ($this->request->is(array('usuario','put'))) {
 			if ($this->Usuario->save($this->request->data)) {
 				$this->Flash->success(__('The usuario has been saved.'));
-				return $this->redirect(array('action' => 'view'));
+				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Flash->set(__('The usuario could not be saved. Please, try again.'));
 			}
@@ -109,6 +111,7 @@ class UsuariosController extends AppController {
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
+
 
 /**
  * admin_index method

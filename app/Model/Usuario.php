@@ -40,10 +40,10 @@ class Usuario extends AppModel {
 		),
 		'nombre' => array(
 			'userDefined' => array(
-                'rule' => 'notEmpty',
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
+                'rule' => array('between', 5, 15),
+				//'message' => 'Seleccione el nombre del usuario remitente',
+				'allowEmpty' => false,
+				'required' => true,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
@@ -52,8 +52,8 @@ class Usuario extends AppModel {
 			'email' => array(
 				'rule' => array('email'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
+				'allowEmpty' => false,
+				'required' => true,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
@@ -62,8 +62,8 @@ class Usuario extends AppModel {
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
+				'allowEmpty' => false,
+				'required' => true,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
