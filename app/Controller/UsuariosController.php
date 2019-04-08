@@ -75,15 +75,19 @@ class UsuariosController extends AppController {
      * @throws Exception
      */
 	public function edit($id = null) {
+        if (!$id) {
+            throw new NotFoundException(__('Usuario inválido'));
+        }
 		if (!$this->Usuario->exists($id)) {
-			throw new NotFoundException(__('Invalid usuario'));
+			throw new NotFoundException(__('Usuario inválido'));
 		}
 		if ($this->request->is(array('usuario','put'))) {
+            $this->Usuario->id = $id;
 			if ($this->Usuario->save($this->request->data)) {
-				$this->Flash->success(__('The usuario has been saved.'));
+				$this->Flash->success(__('El usuario ha sido actualizado'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Flash->set(__('The usuario could not be saved. Please, try again.'));
+				$this->Flash->set(__('El usuario podría no ser guardado, inténtelo de nuevo.'));
 			}
 		} else {
 			$options = array('conditions' => array('Usuario.' . $this->Usuario->primaryKey => $id));

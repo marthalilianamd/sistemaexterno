@@ -56,20 +56,17 @@ class UsuariosWsController extends AppController
      * @param $id
      * @throws Exception
      */
-   public function edit($id)
-   {
-       if ($this->request->is('put')) {
-           $this->Usuario->fcm_registro_id = $id;
-           if ($this->Usuario->save($this->request->data)) {
-               $message = 'Saved';
-           } else {
-               $message = 'Error';
-           }
-           $this->set(array(
-               'message' => $message,
-               '_serialize' => array('message')
-           ));
+   public function edit($id){
+       $this->Usuario->id = $id;
+       if ($this->Usuario->save($this->request->data)) {
+           $message = 'Saved';
+       } else {
+           $message = ' Error';
        }
+       $this->set(array(
+           'message' => $message,
+           '_serialize' => array('message')
+       ));
    }
 
 

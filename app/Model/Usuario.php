@@ -29,21 +29,19 @@ class Usuario extends AppModel {
  */
 	public $validate = array(
 		'usuario_id' => array(
-			'userDefined' => array(
 				'rule' => array('isUnique'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
 		),
 		'nombre' => array(
 			'userDefined' => array(
                 'rule' => array('between', 5, 15),
 				//'message' => 'Seleccione el nombre del usuario remitente',
-				'allowEmpty' => false,
-				'required' => true,
+				//'allowEmpty' => false,
+				//'required' => true,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
@@ -52,8 +50,8 @@ class Usuario extends AppModel {
 			'email' => array(
 				'rule' => array('email'),
 				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				'required' => true,
+				//'allowEmpty' => true,
+				//'required' => true,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
@@ -62,38 +60,34 @@ class Usuario extends AppModel {
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				'required' => true,
+				//'allowEmpty' => false,
+				//'required' => true,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
         'api_key' => array(
-            'userDefined' => array(
                 'rule' => array('alphaNumeric'),
                 //'message' => 'Your custom message here',
-                'allowEmpty' => true,
-                'required' => false,
+                //'allowEmpty' => true,
+                //'required' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
         ),
         'fcm_registro_id' => array(
-            'userDefined' => array(
                 'rule' => array('alphaNumeric'),
                 //'message' => 'Id de registro de móvil (FCM)',
-                'allowEmpty' => true,
-                 'required' => false,
+                //'allowEmpty' => true,
+                 //'required' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
         ),
         'fecha_creacion' => array(
             'datetime' => array(
                 'rule' => array('datetime'),
                 //'message' => 'Your custom message here',
                 //'allowEmpty' => false,
-                'required' => false,
+                //'required' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
             ),

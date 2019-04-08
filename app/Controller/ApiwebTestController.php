@@ -36,7 +36,7 @@ class ApiwebTestController extends AppController
         $link =  "http://" . $_SERVER['HTTP_HOST'] . $this->webroot.'usuarios_ws/'.$id.'.json';
         $data = null;
         $httpSocket = new HttpSocket();
-        $data['Usuario']['fcm_registro_id'] = 'asdasdsadr45t3refbvcx';
+        $data['Usuario']['fcm_registro_id']= 'marthasdsadr45t3refbvcx';
         $response = $httpSocket->put($link, $data );
         $this->set('response_code', $response->code);
         $this->set('response_body', $response->body);
@@ -49,11 +49,11 @@ class ApiwebTestController extends AppController
         $link =  "http://" . $_SERVER['HTTP_HOST'] . $this->webroot.'usuarios_ws.json';
         $data = null;
         $httpSocket = new HttpSocket();
-        $data['Usuario']['nombre'] = 'Cinthia';
-        $data['Usuario']['email'] = 'cinthia@hotmail.com';
-        $data['Usuario']['movil_numero'] = 658888422;
-        $data['Usuario']['api_key'] = 'dfsdfsdfwerSADASbvsae';
-        $data['Usuario']['fcm_registro_id'] = '3asdasSASAS2sdasdas';
+        $data['Usuario']['nombre'] = 'carolina cruz';
+        $data['Usuario']['email'] = 'ccarolinacali@hotmail.com';
+        $data['Usuario']['movil_numero'] = 6584343422;
+        $data['Usuario']['api_key'] = 'carocrizwerSADASbvsae';
+        $data['Usuario']['fcm_registro_id'] = 'fcmy632y3SASAS2sdasdas';
         $data['Usuario']['fecha_creacion'] = date("Y-m-d H:i:s");
         $response = $httpSocket->post($link, $data );
         $this->set('response_code', $response->code);
