@@ -7,8 +7,8 @@
 			<th><?php echo $this->Paginator->sort('nombre'); ?></th>
 			<th><?php echo $this->Paginator->sort('email'); ?></th>
 			<th><?php echo $this->Paginator->sort('movil_numero'); ?></th>
-			<th><?php echo $this->Paginator->sort('api_key'); ?></th>
             <th><?php echo $this->Paginator->sort('fcm_registro_id'); ?></th>
+            <th><?php echo $this->Paginator->sort('api_key'); ?></th>
             <th><?php echo $this->Paginator->sort('fecha_creacion'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
@@ -22,9 +22,10 @@
 		<td><?php echo h($usuario['Usuario']['nombre']); ?>&nbsp;</td>
 		<td><?php echo h($usuario['Usuario']['email']); ?>&nbsp;</td>
 		<td><?php echo h($usuario['Usuario']['movil_numero']); ?>&nbsp;</td>
-		<td><?php echo h($usuario['Usuario']['fecha_creacion']); ?>&nbsp;</td>
-        <td><?php echo h($usuario['Usuario']['api_key']); ?>&nbsp;</td>
         <td><?php echo h($usuario['Usuario']['fcm_registro_id']); ?>&nbsp;</td>
+        <td><?php echo h($usuario['Usuario']['api_key']); ?>&nbsp;</td>
+        <td><?php echo h($usuario['Usuario']['fecha_creacion']); ?>&nbsp;</td>
+
 
 		<td class="actions">
 			<?php echo $this->Html->link(__('Ver'), array('action' => 'view', $usuario['Usuario']['usuario_id'])); ?>

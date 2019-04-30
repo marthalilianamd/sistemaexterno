@@ -7,7 +7,6 @@ App::uses('AppController', 'Controller');
  * @property Usuario $Usuario
  * @property PaginatorComponent $Paginator
  * @property FlashComponent $Flash
- * @method set_json(string $results)
  */
 class UsuariosController extends AppController {
 
@@ -17,9 +16,7 @@ class UsuariosController extends AppController {
      */
     public $components = array(
         'Paginator',
-        'Firebase',
         'Flash',
-        'RequestHandler'
     );
 /**
  * index method
@@ -115,7 +112,6 @@ class UsuariosController extends AppController {
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
-
 
 /**
  * admin_index method

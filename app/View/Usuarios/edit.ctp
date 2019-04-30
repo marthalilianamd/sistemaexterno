@@ -7,8 +7,8 @@
 		echo $this->Form->input('nombre');
 		echo $this->Form->input('email');
 		echo $this->Form->input('movil_numero');
-        echo $this->Form->input('api_key');
         echo $this->Form->input('fcm_registro_id');
+        echo $this->Form->input('api_key');
         echo $this->Form->input('fecha_creacion');
 	?>
 	</fieldset>

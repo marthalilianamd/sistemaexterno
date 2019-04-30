@@ -38,7 +38,7 @@ class Usuario extends AppModel {
 		),
 		'nombre' => array(
 			'userDefined' => array(
-                'rule' => array('between', 5, 15),
+                'rule' => array('between', 1, 15),
 				//'message' => 'Seleccione el nombre del usuario remitente',
 				//'allowEmpty' => false,
 				//'required' => true,
@@ -47,40 +47,41 @@ class Usuario extends AppModel {
 			),
 		),
 		'email' => array(
-			'email' => array(
-				'rule' => array('email'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => true,
-				//'required' => true,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
+            'email' => array(
+                'rule'    => array('email'),
+                'allowEmpty' => false,
+                'required' => false,
+                'on' => 'create' ,
+            ),
 		),
 		'movil_numero' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => true,
+				'allowEmpty' => true,
+				'required' => false,
+                'on' => 'update' ,
 				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+				// // Limit validation to 'create' or 'update' operations
 			),
 		),
-        'api_key' => array(
-                'rule' => array('alphaNumeric'),
-                //'message' => 'Your custom message here',
-                //'allowEmpty' => true,
-                //'required' => false,
-                //'last' => false, // Stop validation after this rule
-                //'on' => 'create', // Limit validation to 'create' or 'update' operations
-        ),
         'fcm_registro_id' => array(
-                'rule' => array('alphaNumeric'),
+            'userDefined' => array(
+                'rule' => array('minLength', '3'),
                 //'message' => 'Id de registro de móvil (FCM)',
-                //'allowEmpty' => true,
-                 //'required' => false,
+                'allowEmpty' => true,
+                'required' => false,
+            ),
+        ),
+        'api_key' => array(
+            'userDefined' => array(
+                'rule' => array('minLength', '3'),
+                //'message' => 'Your custom message here',
+                'allowEmpty' => true,
+                'required' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
         ),
         'fecha_creacion' => array(
             'datetime' => array(

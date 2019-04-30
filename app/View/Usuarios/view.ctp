@@ -21,12 +21,6 @@
 			<?php echo h($usuario['Usuario']['movil_numero']); ?>
 			&nbsp;
 		</dd>
-
-		<dt><?php echo __('Fecha Creacion'); ?></dt>
-		<dd>
-			<?php echo h($usuario['Usuario']['fecha_creacion']); ?>
-			&nbsp;
-		</dd>
         <dt><?php echo __('Api key'); ?></dt>
         <dd>
             <?php echo h($usuario['Usuario']['api_key']); ?>
@@ -35,6 +29,11 @@
         <dt><?php echo __('Id registro fcm'); ?></dt>
         <dd>
             <?php echo h($usuario['Usuario']['fcm_registro_id']); ?>
+            &nbsp;
+        </dd>
+        <dt><?php echo __('Fecha Creacion'); ?></dt>
+        <dd>
+            <?php echo h($usuario['Usuario']['fecha_creacion']); ?>
             &nbsp;
         </dd>
 	</dl>

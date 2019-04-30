@@ -39,10 +39,9 @@ Router::connect('/', array('controller' => 'mensajes', 'action' => 'index'));
 	CakePlugin::routes();
 
 //especifica el controlador que deberia soportar REST.
-Router::mapResources('usuarios_ws');
-//Le dice a cakephp que parsee las extensiones
-//Router::parseExtensions();
+Router::mapResources('usuariosws');
 
+//Le dice a cakephp que parsee las extensiones
 //Especifica el formato de resultado (JSON, XML, RSS)
 Router::parseExtensions('json');
 

@@ -22,7 +22,7 @@ endif;
 <!-- INICIO VISTA HOME MAIN -->
 <html lang="">
 <head>
-    <title>SISTEMA EXTERNO | 1.0</title>
+    <title>SISTEMA WEB | 1.0</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Raleway:400,800,100' rel='stylesheet' type='text/css'>

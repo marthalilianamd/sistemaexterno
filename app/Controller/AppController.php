@@ -40,14 +40,13 @@ class AppController extends Controller {
 
     //dividir las solicitudes de entrada para saber si es controlador de Rest o no
     public function beforeFilter() {
-
-        if(in_array($this->params['controller'],array('usuarios_ws'))){
+        if(in_array($this->params['controller'],array('usuariosws'))){
             // For RESTful web service requests, we check the name of our contoller
             $this->Auth->allow();
             // this line should always be there to ensure that all rest calls are secure
+            // forma más segura de proteger la aplicación de los ataques de intermediarios
             //$this->Security->requireSecure();
             $this->Security->unlockedActions = array('edit','delete','add','view');
-
         }else{
             // setup out Auth
             $this->Auth->allow();
