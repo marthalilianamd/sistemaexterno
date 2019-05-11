@@ -40,18 +40,18 @@ class UsuariosUtilComponent extends Component{
     public function tokenMovil($email){
         $filtro = array(
             'conditions' => array('Usuario.email' => $email),
-            'fields' => array('Usuario.fcm_registro_id')
+            'fields' => array('Usuario.fcm_registro')
         );
         $tokenmovil = $this->usuario->find('first', $filtro);
         //debug($tokenmovil['Usuario']['fcm_registro_id']);
-        if(empty($tokenmovil['Usuario']['fcm_registro_id'])){
+        if(empty($tokenmovil['Usuario']['fcm_registro'])){
             $flag = true;
         }else{
             $flag = false;
         }
         return $result = array (
             'vacio' => $flag,
-            'token'=> $tokenmovil['Usuario']['fcm_registro_id']
+            'token'=> $tokenmovil['Usuario']['fcm_registro']
         );
     }
 }

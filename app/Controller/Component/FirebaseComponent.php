@@ -4,33 +4,42 @@ App::uses('Component','Controller');
 
 class FirebaseComponent extends Component
 {
-    // sending push message to single user by firebase reg id
+    // Envia mensaje a uno o varios usuarios por registro movil generado por Firebase
     /**
-     * @param $to
-     * @param $message
-     * @return string
+     * @param $reg_movil
+     * @param $mensaje
+     * @return array
      * @throws Exception
      */
-    public function send($to, $message) {
-        $fields = array(
-            'to' => $to,
-            'data' => $message,
-        );
-        return $this->sendMessage($fields);
+    public function envioUnicoUsuario($reg_movil, $datosmensaje) {
+        $datos = array(
+            'to' => $reg_movil,
+            'data' => array(
+                'title' => $datosmensaje['Mensaje']['titulo'],
+                'message' =>  $datosmensaje['Mensaje']['mensaje']
+            ));
+        return $this->enviarMensaje($datos);
     }
 
-    // function makes request to firebase servers
+    // Envio de mensaje a multiples usuarios por registro movil en Firebase
+    public function envioMultipleUsuario($reg_moviles, $mensaje) {
+        $datos = array(
+            'to' => $reg_moviles,
+            'data' => $mensaje,
+        );
+        return $this->enviarMensaje($datos);
+    }
 
+    // Función que hace la solicitud al servidor de Firebase
     /**
-     * @param $fields
-     * @return string
+     * @param $datos
+     * @return array
      * @throws Exception
      */
-    private function sendMessage($fields) {
-
+    private function enviarMensaje($fields) {
         $key_api_firebase = Configure::read('FIREBASE_CONFIG.API');
         $url_firebase_send = Configure::read('FIREBASE_CONFIG.URL');
-
+        $resultado = array();
         $request = array(
             'method' => 'POST',
             'header' => array(
@@ -39,19 +48,21 @@ class FirebaseComponent extends Component
             ),
             'body' => $fields
         );
-
         $HttpSocket = new HttpSocket();
         try {
             $response = $HttpSocket->post($url_firebase_send, $request);
-            $code = $response->code;
-            if($code !== '200'){
-                throw new \RuntimeException('La respuesta de la petición no fue correcta');
-            }
-            debug('respuesta de la petición'.$response->body);
-            return $response->body;
+            debug($response->code);
         }catch (\Exception $e){
-            throw new \RuntimeException('Falló la solicitud post',$e);
+            throw new \RuntimeException('Falló la solicitud post ',$e);
         }
+        if($response->code === '200'){
+            $resultado['respuestaenvio'] = $response->body;
+            $resultado['Ok'] = true;
+            //throw new \RuntimeException('La respuesta de la petición no fue correcta');
+        }else{
+            $resultado['respuestaenvio'] = '';
+            $resultado['Ok'] = false;
+        }
+        return $resultado;
     }
-
 }

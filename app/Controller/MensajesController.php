@@ -1,16 +1,19 @@
 <?php
 App::uses('AppController', 'Controller');
+App::import('Model', 'Usuario');
+App::import('Model', '');
 /**
  * Mensajes Controller
  *
  * @property Mensaje $Mensaje
  * @property Usuario $Usuario
- * @property Gremio $Gremio
  * @property PaginatorComponent $Paginator
  * @property FirebaseComponent $Firebase
  * @property FlashComponent $Flash
  */
 class MensajesController extends AppController {
+
+    public $uses = array('Usuario','Mensaje');
 
 /**
  * Components
@@ -31,7 +34,7 @@ class MensajesController extends AppController {
  */
 	public function index() {
 		$this->Mensaje->recursive = 0;
-		$this->set('mensajes', $this->Paginator->paginate());
+		$this->set('mensajes', $this->Mensaje->find('all', $this->Paginator->paginate()));
 	}
 
 /**
@@ -43,7 +46,7 @@ class MensajesController extends AppController {
  */
 	public function view($id = null) {
 		if (!$this->Mensaje->exists($id)) {
-			throw new NotFoundException(__('Invalid mensaje'));
+			throw new NotFoundException(__('Mensaje no existe'));
 		}
 		$options = array('conditions' => array('Mensaje.' . $this->Mensaje->primaryKey => $id));
 		$this->set('mensaje', $this->Mensaje->find('first', $options));
@@ -57,21 +60,31 @@ class MensajesController extends AppController {
      */
 	public function add() {
 		if ($this->request->is('post')) {
-			$this->Mensaje->create();
             try {
-                if ($this->Mensaje->save($this->request->data)) {
-                    $this->Flash->success(__('The mensaje has been saved.'));
-                    return $this->redirect(array('action' => 'index'));
-                } else {
-                    $this->Flash->set(__('The mensaje could not be saved. Please, try again.'));
+                $datos = $this->request->data;
+                $registro_movil = $this->getFcmRegistro($this->request->data['Mensaje']['usuario_id']);
+                try{
+                    $respuesta = $this->Firebase->envioUnicoUsuario($registro_movil, $datos);
+                } catch (Exception $e) {
+                    new RuntimeException('Mensaje no enviado a usuario. '.$e);
+                }
+                if($respuesta['Ok']) {
+                    $this->Mensaje->create();
+                    if ($this->Mensaje->save($this->request->data)) {
+                        $this->Flash->success(__('Mensaje enviado y guardado exitosamente!.'));
+                        return $this->redirect(array('action' => 'index'));
+                    } else {
+                        $this->Flash->set(__('El mensaje no fue guardado. Intenta de nuevo.'));
+                    }
+                }else{
+                    $this->Flash->set(__('El mensaje no fue enviado. Intenta de nuevo.'));
                 }
             } catch (Exception $e) {
-                new RuntimeException('No guardó mensaje en DB. '.$e);
+                new RuntimeException('Error, guardando el mensaje en DB. '.$e);
             }
         }
-        $gremios = $this->Mensaje->Gremio->find('list');
         $usuarios = $this->Mensaje->Usuario->find('list');
-        $this->set(compact('gremios', 'usuarios'));
+        $this->set(compact( 'usuarios'));
 	}
 
     /**
@@ -84,14 +97,14 @@ class MensajesController extends AppController {
      */
 	public function edit($id = null) {
 		if (!$this->Mensaje->exists($id)) {
-			throw new NotFoundException(__('Invalid mensaje'));
+			throw new NotFoundException(__('Mensaje no existe'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Mensaje->save($this->request->data)) {
-				$this->Flash->success(__('The mensaje has been saved.'));
+				$this->Flash->success(__('Mensaje guardado.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Flash->set(__('The mensaje could not be saved. Please, try again.'));
+				$this->Flash->set(__('El mensaje no fue guardado. Intenta de nuevo.'));
 			}
 		} else {
 			$options = array('conditions' => array('Mensaje.' . $this->Mensaje->primaryKey => $id));
@@ -99,8 +112,7 @@ class MensajesController extends AppController {
 		}
 		$mensajes = $this->Mensaje->find('list');
 		$usuarios = $this->Mensaje->Usuario->find('list');
-        $gremios = $this->Mensaje->Gremio->find('list');
-		$this->set(compact('mensajes', 'usuarios','gremios'));
+		$this->set(compact('mensajes', 'usuarios'));
 	}
 
     /**
@@ -111,18 +123,26 @@ class MensajesController extends AppController {
      */
 	public function delete($id = null) {
 		if (!$this->Mensaje->exists($id)) {
-			throw new NotFoundException(__('Invalid mensaje'));
+			throw new NotFoundException(__('Mensaje no existe'));
 		}
 		$this->request->allowMethod('post', 'delete');
 		if ($this->Mensaje->delete($id)) {
-			$this->Flash->success(__('The mensaje has been deleted.'));
+			$this->Flash->success(__('Mensaje eliminado.'));
 		} else {
-			$this->Flash->set(__('The mensaje could not be deleted. Please, try again.'));
+			$this->Flash->set(__('El mensaje no pudo ser eliminado. Intenta de nuevo.'));
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
 
-/**
+    public function getFcmRegistro($id_usuario){
+        $consultaRegistro = $this->Usuario->find("first", array(
+            'conditions' => array('Usuario.usuario_id' == $id_usuario),
+            'fields' => array('Usuario.fcm_registro')
+        ));
+        return $consultaRegistro['Usuario']['fcm_registro'];
+    }
+
+/*************************************************************************
  * admin_index method
  *
  * @return void

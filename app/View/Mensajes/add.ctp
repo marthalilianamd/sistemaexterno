@@ -2,11 +2,11 @@
 <div class="mensajes form">
 <?php echo $this->Form->create('Mensaje'); ?>
 	<fieldset>
-		<legend><?php echo __('Crear Mensaje'); ?></legend>
+		<legend><?php echo __('Enviar Mensaje'); ?></legend>
 	<?php
-		echo $this->Form->input('gremio_id');
 		echo $this->Form->input('usuario_id');
-		echo $this->Form->input('mensaje');
+		echo $this->Form->input('titulo');
+        echo $this->Form->input('mensaje');
 		echo $this->Form->input('fecha_creacion');
 	?>
 	</fieldset>

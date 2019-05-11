@@ -65,22 +65,12 @@ class Usuario extends AppModel {
 				// // Limit validation to 'create' or 'update' operations
 			),
 		),
-        'fcm_registro_id' => array(
+        'fcm_registro' => array(
             'userDefined' => array(
                 'rule' => array('minLength', '3'),
                 //'message' => 'Id de registro de móvil (FCM)',
                 'allowEmpty' => true,
                 'required' => false,
-            ),
-        ),
-        'api_key' => array(
-            'userDefined' => array(
-                'rule' => array('minLength', '3'),
-                //'message' => 'Your custom message here',
-                'allowEmpty' => true,
-                'required' => false,
-                //'last' => false, // Stop validation after this rule
-                //'on' => 'create', // Limit validation to 'create' or 'update' operations
             ),
         ),
         'fecha_creacion' => array(
@@ -110,5 +100,4 @@ class Usuario extends AppModel {
             'dependent' => true,
         )
     );
-
 }

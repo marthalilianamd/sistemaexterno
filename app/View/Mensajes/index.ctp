@@ -4,9 +4,10 @@
 	<thead>
 	<tr>
 			<th><?php echo $this->Paginator->sort('mensaje_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('gremio_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('usuario_id', 'Usuario'); ?></th>
+            <th><?php echo $this->Paginator->sort('titulo'); ?></th>
 			<th><?php echo $this->Paginator->sort('mensaje'); ?></th>
+            <th><?php echo $this->Paginator->sort('estado'); ?></th>
 			<th><?php echo $this->Paginator->sort('fecha_creacion'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
@@ -18,16 +19,18 @@
 			<?php /* echo $this->Html->link($mensaje['Mensaje']['mensaje'], array('controller' => 'mensajes', 'action' => 'view', $mensaje['Mensaje']['mensaje_id'])); */?>
 		    <?php echo h($mensaje['Mensaje']['mensaje_id']); ?>
 		</td>
-		<td><?php echo h($mensaje['Mensaje']['gremio_id']); ?>&nbsp;</td>
 		<td>
 		<?php echo h($mensaje['Mensaje']['usuario_id']); ?>&nbsp;
 		</td>
+        <td><?php echo h($mensaje['Mensaje']['titulo']); ?>&nbsp;</td>
 		<td><?php echo h($mensaje['Mensaje']['mensaje']); ?>&nbsp;</td>
+        <td><?php echo h($mensaje['Mensaje']['estado']); ?>&nbsp;</td>
 		<td><?php echo h($mensaje['Mensaje']['fecha_creacion']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('Ver'), array('action' => 'view', $mensaje['Mensaje']['mensaje_id'])); ?>
 			<?php echo $this->Html->link(__('Editar'), array('action' => 'edit', $mensaje['Mensaje']['mensaje_id'])); ?>
-			<?php echo $this->Form->postLink(__('Eliminar'), array('action' => 'delete', $mensaje['Mensaje']['mensaje_id']), array('confirm' => __('Are you sure you want to delete # %s?', $mensaje['Mensaje']['mensaje_id']))); ?>
+			<?php echo $this->Form->postLink(__('Eliminar'), array('action' => 'delete', $mensaje['Mensaje']['mensaje_id']),
+                array('confirm' => __('Está seguro de eliminar este mensaje # %s?', $mensaje['Mensaje']['mensaje_id']))); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -54,6 +57,5 @@
 		<li><?php echo $this->Html->link(__('Nuevo Mensaje'), array('controller' => 'mensajes', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('Listar Usuarios'), array('controller' => 'usuarios', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('Nuevo Usuario'), array('controller' => 'usuarios', 'action' => 'add')); ?> </li>
-        <li><?php echo $this->Html->link(__('Listar Gremios'), array('controller' => 'gremios', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

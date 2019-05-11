@@ -6,11 +6,6 @@
 			<?php echo $this->Html->link($mensaje['Mensaje']['mensaje_id'], array('controller' => 'mensajes', 'action' => 'view', $mensaje['Mensaje']['mensaje_id'])); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Gremio Id'); ?></dt>
-		<dd>
-			<?php echo h($mensaje['Mensaje']['gremio_id']); ?>
-			&nbsp;
-		</dd>
 		<dt><?php echo __('Usuario'); ?></dt>
 		<dd>
 			<?php echo $this->Html->link($mensaje['Usuario']['usuario_id'], array('controller' => 'usuarios', 'action' => 'view', $mensaje['Usuario']['usuario_id'])); ?>
@@ -41,30 +36,35 @@
 	</ul>
 </div>
 	<div class="related">
-		<h3><?php echo __('Related Mensajes'); ?></h3>
-	<?php if (!empty($mensaje['Mensaje'])): ?>
-		<dl>
-			<dt><?php echo __('Mensaje Id'); ?></dt>
+    <h3><?php echo __('Mensajes relacionados'); ?></h3>
+    <?php if (!empty($mensaje['Mensaje'])): ?>
+    <dl>
+        <dt><?php echo __('Mensaje Id'); ?></dt>
 		<dd>
-	<?php echo $mensaje['Mensaje']['mensaje_id']; ?>
-&nbsp;</dd>
-		<dt><?php echo __('Gremio Id'); ?></dt>
+	        <?php echo $mensaje['Mensaje']['mensaje_id']; ?>
+&nbsp;       </dd>
+
+        <dt><?php echo __('Usuario Id'); ?></dt>
+        <dd>
+            <?php echo $mensaje['Mensaje']['usuario_id']; ?>
+    &nbsp;  </dd>
+        <dt><?php echo __('Titulo'); ?></dt>
+        <dd>
+            <?php echo $mensaje['Mensaje']['titulo']; ?>
+&nbsp;      </dd>
+        <dt><?php echo __('Mensaje'); ?></dt>
 		<dd>
-	<?php echo $mensaje['Mensaje']['gremio_id']; ?>
-&nbsp;</dd>
-		<dt><?php echo __('Usuario Id'); ?></dt>
-		<dd>
-	<?php echo $mensaje['Mensaje']['usuario_id']; ?>
-&nbsp;</dd>
-		<dt><?php echo __('Mensaje'); ?></dt>
-		<dd>
-	<?php echo $mensaje['Mensaje']['mensaje']; ?>
-&nbsp;</dd>
+	        <?php echo $mensaje['Mensaje']['mensaje']; ?>
+&nbsp;      </dd>
+        <dt><?php echo __('Estado'); ?></dt>
+        <dd>
+            <?php echo $mensaje['Mensaje']['estado']; ?>
+&nbsp;      </dd>
 		<dt><?php echo __('Fecha Creacion'); ?></dt>
 		<dd>
-	<?php echo $mensaje['Mensaje']['fecha_creacion']; ?>
-&nbsp;</dd>
-		</dl>
+	        <?php echo $mensaje['Mensaje']['fecha_creacion']; ?>
+&nbsp;      </dd>
+    </dl>
 	<?php endif; ?>
 		<div class="actions">
 			<ul>

@@ -55,7 +55,7 @@ class UsuariosWsController extends AppController{
 
     /**
      * Servicio view recibe email
-     * Funcion retorna token si existe en la base de datos del sistema web
+     * Funcion retorna contenido de email y token después de consultar base de datos del sistema web
      * @param $id
      * @throws Exception
      * @return JsonSerializable
@@ -66,14 +66,19 @@ class UsuariosWsController extends AppController{
         $tokenmovil = $Usuariosutil->tokenMovil($id);
         if($acercadelusuario['existe']){
             if(!$tokenmovil['vacio']) {
+                $response['email'] = $id;
                 $response['token'] = $tokenmovil['token'];
             }else{
+                $response['email'] = $id;
                 $response['token'] = "";
             }
-            $this->set(array(
-                'response' => $response,
-                '_serialize' => 'response'
-            ));
+        }else {
+            $response['email'] = "";
+            $response['token'] = "";
         }
+        $this->set(array(
+            'response' => $response,
+            '_serialize' => 'response'
+        ));
     }
 }
