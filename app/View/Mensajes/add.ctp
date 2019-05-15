@@ -4,7 +4,7 @@
 	<fieldset>
 		<legend><?php echo __('Enviar Mensaje'); ?></legend>
 	<?php
-		echo $this->Form->input('usuario_id');
+		echo $this->Form->input('usuario_id',array('Usuario.fcm_registro !=' => NULL));
 		echo $this->Form->input('titulo');
         echo $this->Form->input('mensaje');
 		echo $this->Form->input('fecha_creacion');

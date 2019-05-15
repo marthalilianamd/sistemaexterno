@@ -1,4 +1,5 @@
 <?php
+
 App::uses('HttpSocket', 'Network/Http');
 App::uses('Component','Controller');
 
@@ -14,9 +15,13 @@ class FirebaseComponent extends Component
     public function envioUnicoUsuario($reg_movil, $datosmensaje) {
         $datos = array(
             'to' => $reg_movil,
-            'data' => array(
-                'title' => $datosmensaje['Mensaje']['titulo'],
-                'message' =>  $datosmensaje['Mensaje']['mensaje']
+            'notification' =>
+                array(
+                    'title' => $datosmensaje['Mensaje']['titulo'],
+                    'body' => $datosmensaje['Mensaje']['mensaje']
+            /*'data' => array(
+                'movil' => $datosmensaje['Mensaje']['titulo']
+            )*/
             ));
         return $this->enviarMensaje($datos);
     }
@@ -36,7 +41,7 @@ class FirebaseComponent extends Component
      * @return array
      * @throws Exception
      */
-    private function enviarMensaje($fields) {
+    private function enviarMensaje($datos) {
         $key_api_firebase = Configure::read('FIREBASE_CONFIG.API');
         $url_firebase_send = Configure::read('FIREBASE_CONFIG.URL');
         $resultado = array();
@@ -46,15 +51,15 @@ class FirebaseComponent extends Component
                 'Authorization: key=' . $key_api_firebase,
                 'Content-Type: application/json'
             ),
-            'body' => $fields
         );
-        $HttpSocket = new HttpSocket();
+        $data = json_encode($datos);
+        $HttpSocket = new HttpSocket(array('ssl_verify_peer'=>false,'ssl_verify_host'=>false));
         try {
-            $response = $HttpSocket->post($url_firebase_send, $request);
-            debug($response->code);
+            $response = $HttpSocket->post($url_firebase_send, $data,$request);
         }catch (\Exception $e){
             throw new \RuntimeException('Falló la solicitud post ',$e);
         }
+        debug($response->code);
         if($response->code === '200'){
             $resultado['respuestaenvio'] = $response->body;
             $resultado['Ok'] = true;
@@ -63,6 +68,7 @@ class FirebaseComponent extends Component
             $resultado['respuestaenvio'] = '';
             $resultado['Ok'] = false;
         }
+
         return $resultado;
     }
 }

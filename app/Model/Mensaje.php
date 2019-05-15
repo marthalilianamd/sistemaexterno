@@ -94,7 +94,7 @@ class Mensaje extends AppModel {
 		'Usuario' => array(
 			'className' => 'Usuario',
 			'foreignKey' => 'usuario_id',
-			'conditions' => '',
+			'conditions' => '',//array('Usuario.fcm_registro IS NOT' =>
 			'fields' => '',
 			'order' => ''
 		)
