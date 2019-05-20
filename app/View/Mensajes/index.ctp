@@ -3,20 +3,21 @@
 	<table cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>
-			<th><?php echo $this->Paginator->sort('mensaje_id'); ?></th>
+			<th><?php echo $this->Paginator->sort('mensaje_id', 'Id mensaje'); ?></th>
 			<th><?php echo $this->Paginator->sort('usuario_id', 'Usuario'); ?></th>
-            <th><?php echo $this->Paginator->sort('titulo'); ?></th>
-			<th><?php echo $this->Paginator->sort('mensaje'); ?></th>
-            <th><?php echo $this->Paginator->sort('estado'); ?></th>
-			<th><?php echo $this->Paginator->sort('fecha_creacion'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
+            <th><?php echo $this->Paginator->sort('titulo', 'Título'); ?></th>
+			<th><?php echo $this->Paginator->sort('mensaje', 'Texto'); ?></th>
+            <th><?php echo $this->Paginator->sort('estado', 'Estado'); ?></th>
+			<th><?php echo $this->Paginator->sort('fecha_creacion', 'Fecha Creación'); ?></th>
+			<th class="actions"><?php echo __('Acciones'); ?></th>
 	</tr>
 	</thead>
 	<tbody>
 	<?php foreach ($mensajes as $mensaje): ?>
 	<tr>
 		<td>
-			<?php /* echo $this->Html->link($mensaje['Mensaje']['mensaje'], array('controller' => 'mensajes', 'action' => 'view', $mensaje['Mensaje']['mensaje_id'])); */?>
+			<?php /* echo $this->Html->link($mensaje['Mensaje']['mensaje'],
+                array('controller' => 'mensajes', 'action' => 'view', $mensaje['Mensaje']['mensaje_id'])); */?>
 		    <?php echo h($mensaje['Mensaje']['mensaje_id']); ?>
 		</td>
 		<td>
@@ -57,5 +58,26 @@
 		<li><?php echo $this->Html->link(__('Nuevo Mensaje'), array('controller' => 'mensajes', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('Listar Usuarios'), array('controller' => 'usuarios', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('Nuevo Usuario'), array('controller' => 'usuarios', 'action' => 'add')); ?> </li>
-	</ul>
+    </ul>
 </div>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-messaging.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#config-web-app -->
+
+<script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyD9JIIMRNl1yx_Ip4LGUhppNOt0GbYqJ3Q",
+        authDomain: "message-delivery-system.firebaseapp.com",
+        databaseURL: "https://message-delivery-system.firebaseio.com",
+        projectId: "message-delivery-system",
+        storageBucket: "message-delivery-system.appspot.com",
+        messagingSenderId: "1087302060910",
+        appId: "1:1087302060910:web:85c92968d8d60202"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+</script>

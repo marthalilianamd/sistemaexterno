@@ -31,12 +31,22 @@ App::uses('Controller', 'Controller');
  * @link		https://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+
     public $components = array(
         'DebugKit.Toolbar',
         'RequestHandler',
         'Session',
-        'Auth',
-        'Security');
+        'Security',
+        'Auth' => array(
+            'loginRedirect' => array(
+                'Controller' => 'mensajes','action'=> 'index'
+            ),
+            'logoutRedirect' => array(
+                'Controller' => 'usuarios','action'=> 'login'
+            ),
+            'authorize' => array('Controller'),
+        ));
+
 
     //dividir las solicitudes de entrada para saber si es controlador de Rest o no
     public function beforeFilter() {
@@ -46,10 +56,18 @@ class AppController extends Controller {
             // this line should always be there to ensure that all rest calls are secure
             // forma más segura de proteger la aplicación de los ataques de intermediarios
             //$this->Security->requireSecure();
-            $this->Security->unlockedActions = array('edit','delete','add','view');
-        }else{
-            // setup out Auth
-            $this->Auth->allow();
+            $this->Security->unlockedActions = array('edit','view');
+        }
+        if((in_array($this->params['controller'],array('usuarios')) ||
+            in_array($this->params['controller'],array('mensajes'))) && $this->Session->read('Logueado')){
+                // setup out Auth
+                $this->Auth->allow();
+                $this->Security->unlockedActions = array('login','add','edit','delete','index','view');
+        }
+        else{
+            if(!$this->Session->read('Logueado')){
+                $this->Auth->allow('login');
+            }
         }
     }
 

@@ -24,7 +24,7 @@ class UsuariosWsController extends AppController{
      */
     public function edit($id){
         $Usuariosutil = new UsuariosUtilComponent();
-        $acercadelusuario= $Usuariosutil->existeUsuario($id);
+        $acercadelusuario= $Usuariosutil->consultarUsuario($id);
         $tokenmovil = $Usuariosutil->tokenMovil($id);
         if($acercadelusuario['existe']){
             //debug('vacio token? '.$vaciotoken);
@@ -55,25 +55,34 @@ class UsuariosWsController extends AppController{
 
     /**
      * Servicio view recibe email
-     * Funcion retorna contenido de email y token después de consultar base de datos del sistema web
+     * Funcion retorna contenido de email, contraseña y token después de consultar base de datos del sistema web
      * @param $id
      * @throws Exception
      * @return JsonSerializable
      */
     public function view($id){
+        $poscomodin =strpos($id,"-");
+        $email = substr($id,0,$poscomodin);
+        $contrasena = substr($id,$poscomodin+1,strlen($id)-1);
+
         $Usuariosutil = new UsuariosUtilComponent();
-        $acercadelusuario= $Usuariosutil->existeUsuario($id);
-        $tokenmovil = $Usuariosutil->tokenMovil($id);
+        $acercadelusuario= $Usuariosutil->consultarUsuario($email);
+        $contrasenacoincide = $Usuariosutil->verificarContrasena($email,$contrasena);
+
+        $tokenmovil = $Usuariosutil->tokenMovil($email);
         if($acercadelusuario['existe']){
             if(!$tokenmovil['vacio']) {
-                $response['email'] = $id;
+                $response['email'] = $acercadelusuario['email'];
+                $response['igualcontrasena'] = $contrasenacoincide;
                 $response['token'] = $tokenmovil['token'];
             }else{
-                $response['email'] = $id;
+                $response['email'] = $acercadelusuario['email'];
+                $response['igualcontrasena'] = $contrasenacoincide;
                 $response['token'] = "";
             }
         }else {
             $response['email'] = "";
+            $response['igualcontrasena'] = $contrasenacoincide;
             $response['token'] = "";
         }
         $this->set(array(

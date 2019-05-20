@@ -3,7 +3,6 @@ App::uses('AppModel', 'Model');
 /**
  * Mensaje Model
  *
- * @property Mensaje $Mensaje
  * @property Usuario $Usuario
  */
 class Mensaje extends AppModel {

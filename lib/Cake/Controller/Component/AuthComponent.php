@@ -33,6 +33,7 @@ App::uses('CakeEvent', 'Event');
  *
  * Binds access control with user authentication and session management.
  *
+ * @property bool autoRedirect
  * @package       Cake.Controller.Component
  * @link https://book.cakephp.org/2.0/en/core-libraries/components/authentication.html
  */
@@ -181,7 +182,7 @@ class AuthComponent extends Component {
  * @var mixed
  */
 	public $loginAction = array(
-		'controller' => 'users',
+		'controller' => 'usuarios',
 		'action' => 'login',
 		'plugin' => null
 	);
@@ -432,7 +433,7 @@ class AuthComponent extends Component {
 	protected function _setDefaults() {
 		$defaults = array(
 			'logoutRedirect' => $this->loginAction,
-			'authError' => __d('cake', 'You are not authorized to access that location.')
+			'authError' => __d('cake', 'No está autorizado, inicie sesión')
 		);
 		foreach ($defaults as $key => $value) {
 			if (!isset($this->{$key}) || $this->{$key} === true) {

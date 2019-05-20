@@ -4,12 +4,13 @@
 	<thead>
 	<tr>
 			<th><?php echo $this->Paginator->sort('usuario_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('nombre'); ?></th>
-			<th><?php echo $this->Paginator->sort('email'); ?></th>
-			<th><?php echo $this->Paginator->sort('movil_numero'); ?></th>
-            <th><?php echo $this->Paginator->sort('fcm_registro'); ?></th>
-            <th><?php echo $this->Paginator->sort('fecha_creacion'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
+			<th><?php echo $this->Paginator->sort('Nombre'); ?></th>
+			<th><?php echo $this->Paginator->sort('Email'); ?></th>
+            <th><?php echo $this->Paginator->sort('Contraseña'); ?></th>
+			<th><?php echo $this->Paginator->sort('Móvil'); ?></th>
+            <th><?php echo $this->Paginator->sort('Token móvil'); ?></th>
+            <th><?php echo $this->Paginator->sort('Fecha Creación'); ?></th>
+			<th class="actions"><?php echo __('Acciones'); ?></th>
 	</tr>
 	</thead>
 	<tbody>
@@ -21,6 +22,7 @@
 		</td>
 		<td><?php echo h($usuario['Usuario']['nombre']); ?>&nbsp;</td>
 		<td><?php echo h($usuario['Usuario']['email']); ?>&nbsp;</td>
+        <td><?php echo h($usuario['Usuario']['contrasena']); ?>&nbsp;</td>
 		<td><?php echo h($usuario['Usuario']['movil_numero']); ?>&nbsp;</td>
         <td><?php echo h($usuario['Usuario']['fcm_registro']); ?>&nbsp;</td>
         <td><?php echo h($usuario['Usuario']['fecha_creacion']); ?>&nbsp;</td>
@@ -29,7 +31,7 @@
 		<td class="actions">
 			<?php echo $this->Html->link(__('Ver'), array('action' => 'view', $usuario['Usuario']['usuario_id'])); ?>
 			<?php echo $this->Html->link(__('Editar'), array('action' => 'edit', $usuario['Usuario']['usuario_id'])); ?>
-			<?php echo $this->Form->postLink(__('Elimnar'), array('action' => 'delete', $usuario['Usuario']['usuario_id']), array('confirm' => __('Are you sure you want to delete # %s?', $usuario['Usuario']['usuario_id']))); ?>
+			<?php echo $this->Form->postLink(__('Elimnar'), array('action' => 'delete', $usuario['Usuario']['usuario_id']), array('confirm' => __('Estás seguro de eliminar el # %s?', $usuario['Usuario']['usuario_id']))); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -55,6 +57,8 @@
 		<li><?php echo $this->Html->link(__('Listar Usuarios'), array('controller' => 'usuarios', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('Nuevo Usuario'), array('controller' => 'usuarios', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('Listar Mensajes'), array('controller' => 'mensajes', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('Nuevo Mensaje'), array('controller' => 'mensajes', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('Nuevo Mensaje'), array( 'controller' => 'mensajes', 'action' => 'add')); ?> </li>
+
 	</ul>
 </div>
+

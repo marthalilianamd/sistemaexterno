@@ -112,6 +112,7 @@ CakeLog::config('error', array(
 ));
 //DATOS FIREBASE
 Configure::write('FIREBASE_CONFIG', array(
-    'API' => 'AAAA_ShAy24:APA91bFYXlgmL9FGigTpmR9vc_yoTMb654bRr4BeFYvpbgQ3m9_c8gZK1spQiyS9BOSxDt2HkheAzfTyvUmTUfoz8gfvovezojJ0l5nMFrFoT0m0op1v4XMFxLkk42ekY-t9diSv6u4n',
+    'SERVER_KEY' => 'AIzaSyD9JIIMRNl1yx_Ip4LGUhppNOt0GbYqJ3Q',
     'URL_SEND' => 'https://fcm.googleapis.com/fcm/send'
+    //'https://fcm.googleapis.com/fcm/send'
 ));

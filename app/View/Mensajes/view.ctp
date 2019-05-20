@@ -26,8 +26,9 @@
 <div class="actions">
 	<h3><?php echo __('Acciones'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('Edit Mensaje'), array('action' => 'edit', $mensaje['Mensaje']['mensaje_id'])); ?> </li>
-		<li><?php echo $this->Form->postLink(__('Delete Mensaje'), array('action' => 'delete', $mensaje['Mensaje']['mensaje_id']), array('confirm' => __('Are you sure you want to delete # %s?', $mensaje['Mensaje']['mensaje_id']))); ?> </li>
+		<li><?php echo $this->Html->link(__('Editar Mensaje'), array('action' => 'edit', $mensaje['Mensaje']['mensaje_id'])); ?> </li>
+		<li><?php echo $this->Form->postLink(__('Eliminar Mensaje'), array('action' => 'delete', $mensaje['Mensaje']['mensaje_id']),
+                array('confirm' => __('Desea eliminar el mensaje # %s?', $mensaje['Mensaje']['mensaje_id']))); ?> </li>
 
 		<li><?php echo $this->Html->link(__('Listar Mensajes'), array('controller' => 'mensajes', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('Nuevo Mensaje'), array('controller' => 'mensajes', 'action' => 'add')); ?> </li>

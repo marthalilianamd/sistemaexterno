@@ -35,8 +35,9 @@ CREATE TABLE `usuarios` (
   `usuario_id` int(11) NOT NULL,
   `nombre` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `contrasena` varchar(255) NOT NULL,
   `movil_numero` int(11) NOT NULL,
-  `fcm_registro` varchar(255) NOT NULL,
+  `fcm_registro` varchar(255),
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 

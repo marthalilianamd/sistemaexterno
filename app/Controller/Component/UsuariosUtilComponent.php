@@ -19,21 +19,23 @@ class UsuariosUtilComponent extends Component{
      * @param $email
      * @return array
      */
-    public function existeUsuario($email){
+    public function consultarUsuario($email){
         $filtro = array(
             'conditions' => array('Usuario.email' => $email),
-            'fields' => array('Usuario.usuario_id')
+            'fields' => array('Usuario.usuario_id', 'Usuario.email','Usuario.contrasena')
         );
-        $idusuario = $this->usuario->find('first', $filtro);
-        if(empty($idusuario['Usuario']['usuario_id'])) {
+        $sobreelusuario = $this->usuario->find('first', $filtro);
+        if(empty($sobreelusuario['Usuario']['usuario_id'])) {
             $flag = false;
-            $idusuario['Usuario']['usuario_id'] = 0;
+            $sobreelusuario['Usuario']['usuario_id'] = 0;
         }else{
             $flag =true;
         }
         return $result = array (
             'existe' => $flag,
-            'idusuario'=> $idusuario['Usuario']['usuario_id']
+            'idusuario'=> $sobreelusuario['Usuario']['usuario_id'],
+            'email' => $sobreelusuario['Usuario']['email'],
+            'contrasena' => $sobreelusuario['Usuario']['contrasena']
         );
     }
 
@@ -54,4 +56,21 @@ class UsuariosUtilComponent extends Component{
             'token'=> $tokenmovil['Usuario']['fcm_registro']
         );
     }
+
+    public function verificarContrasena($email,$contrasenaapp){
+        $filtro = array(
+            'conditions' => array('Usuario.email' => $email),
+            'fields' => array('Usuario.contrasena')
+        );
+        $contrasenaweb = $this->usuario->find('first', $filtro);
+        return password_verify($contrasenaapp,$contrasenaweb['Usuario']['contrasena']);
+    }
+
+    public function existeUsuario($email){
+        $filtro = array(
+            'conditions' => array('Usuario.email' => $email)
+        );
+        return $this->usuario->find('first', $filtro);
+    }
+
 }

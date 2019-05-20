@@ -42,20 +42,22 @@ class FirebaseComponent extends Component
      * @throws Exception
      */
     private function enviarMensaje($datos) {
-        $key_api_firebase = Configure::read('FIREBASE_CONFIG.API');
-        $url_firebase_send = Configure::read('FIREBASE_CONFIG.URL');
+        $key_api_firebase = Configure::read('FIREBASE_CONFIG.SERVER_KEY');
+        $url_firebase_send = Configure::read('FIREBASE_CONFIG.URL_SEND');
         $resultado = array();
         $request = array(
             'method' => 'POST',
             'header' => array(
                 'Authorization: key=' . $key_api_firebase,
-                'Content-Type: application/json'
+                'Content-Type:application/json'
             ),
         );
         $data = json_encode($datos);
-        $HttpSocket = new HttpSocket(array('ssl_verify_peer'=>false,'ssl_verify_host'=>false));
+        //debug($data);
+        $httpSocket = new HttpSocket(array('ssl_verify_peer' =>false,'ssl_verify_host' => false,
+            'ssl_verify_peer_name' => false, 'ssl_allow_self_signed' => false));
         try {
-            $response = $HttpSocket->post($url_firebase_send, $data,$request);
+            $response = $httpSocket->post($url_firebase_send,$data,$request);
         }catch (\Exception $e){
             throw new \RuntimeException('Falló la solicitud post ',$e);
         }
@@ -68,7 +70,6 @@ class FirebaseComponent extends Component
             $resultado['respuestaenvio'] = '';
             $resultado['Ok'] = false;
         }
-
         return $resultado;
     }
 }

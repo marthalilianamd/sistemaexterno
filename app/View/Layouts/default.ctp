@@ -14,7 +14,7 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = __d('cake_dev', 'SISTEMA EXTERNO');
+$cakeDescription = __d('cake_dev', 'SISTEMA web EXTERNO');
 /*$cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())*/
 ?>
 <!DOCTYPE html>
@@ -38,10 +38,21 @@ $cakeDescription = __d('cake_dev', 'SISTEMA EXTERNO');
 <body>
 	<div id="container">
 		<div id="header">
-			<h1><?php echo $this->Html->link($cakeDescription, ''); ?></h1>
-		</div>
+            <div style="float: left;">
+			<h1><?php echo $this->Html->link( 'SISTEMA WEB EXTERNO', array('controller' => 'mensajes','action'=>'index')); ?></h1>
+            </div>
+            <div style="float: right;">
+            <?php
+            echo $this->Html->link( "Cerrar sesión",   array('controller' => 'usuarios','action'=>'logout') );
+            echo "<br>";
+            ?>
+            </div>
+        </div>
 		<div id="content">
-
+            <?php
+            echo $this->Html->link( "Inicio",   array('controller' => 'mensajes','action'=>'index') );
+            echo "<br>";
+            ?>
 			<?php echo $this->Flash->render(); ?>
 
 			<?php echo $this->fetch('content'); ?>

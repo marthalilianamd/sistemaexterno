@@ -3,11 +3,12 @@
 	<fieldset>
 		<legend><?php echo __('Crear Usuario'); ?></legend>
 	<?php
-		echo $this->Form->input('nombre');
-		echo $this->Form->input('email');
-		echo $this->Form->input('movil_numero');
-        echo $this->Form->input('fcm_registro');
-        echo $this->Form->input('fecha_creacion');
+		echo $this->Form->input('nombre',array('label' => 'Nombre'));
+		echo $this->Form->input('email',array('label' => 'Email', 'type'=>'email'));
+        echo $this->Form->input('contrasena',array('label' => 'Contraseña','type'=>'password'));
+        echo $this->Form->input('movil_numero',array('label' => 'Móvil'));
+        echo $this->Form->input('fcm_registro',array('label' => 'Token Móvil'));
+        echo $this->Form->input('fecha_creacion', array('label' => 'Fecha Creación'));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Crear')); ?>
@@ -22,3 +23,4 @@
 		<li><?php echo $this->Html->link(__('Nuevo Mensaje'), array('controller' => 'mensajes', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
+

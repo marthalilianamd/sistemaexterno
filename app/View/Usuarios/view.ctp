@@ -16,17 +16,22 @@
 			<?php echo h($usuario['Usuario']['email']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Movil Numero'); ?></dt>
+        <dt><?php echo __('Contaseña'); ?></dt>
+        <dd>
+            <?php echo h($usuario['Usuario']['contrasena']); ?>
+            &nbsp;
+        </dd>
+		<dt><?php echo __('Móvil'); ?></dt>
 		<dd>
 			<?php echo h($usuario['Usuario']['movil_numero']); ?>
 			&nbsp;
 		</dd>
-        <dt><?php echo __('Registro movil fcm'); ?></dt>
+        <dt><?php echo __('Registro Móvil fcm'); ?></dt>
         <dd>
             <?php echo h($usuario['Usuario']['fcm_registro']); ?>
             &nbsp;
         </dd>
-        <dt><?php echo __('Fecha Creacion'); ?></dt>
+        <dt><?php echo __('Fecha Creación'); ?></dt>
         <dd>
             <?php echo h($usuario['Usuario']['fecha_creacion']); ?>
             &nbsp;

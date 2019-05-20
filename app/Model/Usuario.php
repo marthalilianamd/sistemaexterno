@@ -1,5 +1,7 @@
 <?php
 App::uses('AppModel', 'Model');
+App::uses('AuthComponent', 'Controller/Component');
+
 /**
  * Usuario Model
  *
@@ -21,6 +23,9 @@ class Usuario extends AppModel {
  * @var string
  */
 	public $displayField = 'nombre';
+
+
+
 
 /**
  * Validation rules
@@ -46,24 +51,36 @@ class Usuario extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'email' => array(
-            'email' => array(
-                'rule'    => array('email'),
-                'allowEmpty' => false,
-                'required' => false,
-                'on' => 'create' ,
+        'email' => array(
+            'required' => array(
+                'rule' => array('email', true),
+                'message' => 'Email inválido'
             ),
-		),
+        ),
+        'contrasena' => array(
+            'required' => array(
+                'rule' => array('minLength', 5),
+                'message' => 'Contraseña debe tener mínimo 5 caracteres'
+            ),
+            'min_length' => array(
+                'rule' => array('minLength', '4'),
+                'message' => 'Contraseña mínimo de 6 caracteres'
+            )
+        ),
 		'movil_numero' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
-				'allowEmpty' => true,
-				'required' => false,
-                'on' => 'update' ,
+				//'allowEmpty' => false,
+				//'required' => true,
+                //'on' => 'create' ,
 				//'last' => false, // Stop validation after this rule
 				// // Limit validation to 'create' or 'update' operations
 			),
+            'between' => array(
+                    'rule' => array('lengthBetween', 9, 10),
+                    'message' => 'Número entre 9 a 10 digitos'
+            ),
 		),
         'fcm_registro' => array(
             'userDefined' => array(
@@ -100,4 +117,43 @@ class Usuario extends AppModel {
             'dependent' => true,
         )
     );
+
+    /**
+     * Before isUniqueEmail
+     * @param array $options
+     * @return boolean
+     */
+    function isUniqueEmail($check) {
+
+        $email = $this->find(
+            'first',
+            array(
+                'fields' => array(
+                    'usuario.usuario_id'
+                ),
+                'conditions' => array(
+                    'usuario.email' => $check['email']
+                )
+            )
+        );
+
+        if(!empty($email)){
+            if($this->data['Usuario']['id'] == $email['Usuario']['id']){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return true;
+        }
+    }
+
+    public function beforeSave($options = array())    {
+        if (isset($this->data['Usuario']['contrasena'])) {
+            $this->data['Usuario']['contrasena'] =
+                password_hash($this->data['Usuario']['contrasena'],PASSWORD_BCRYPT);
+        }
+        // fallback to our parent
+        return parent::beforeSave($options);
+    }
 }
