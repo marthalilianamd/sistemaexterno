@@ -62,6 +62,7 @@ class AppController extends Controller {
             in_array($this->params['controller'],array('mensajes'))) && $this->Session->read('Logueado')){
                 // setup out Auth
                 $this->Auth->allow();
+                $this->set('logged_in', $this->Auth->loggedIn());
                 $this->Security->unlockedActions = array('login','add','edit','delete','index','view');
         }
         else{

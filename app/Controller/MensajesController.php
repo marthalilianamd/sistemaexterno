@@ -1,11 +1,12 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('Component', 'Controller');
+App::import('Component','Usuariosutil');
 App::import('Model', 'Usuario');
 /**
  * Mensajes Controller
  *
  * @property Usuario $Usuario
- * @property Mensaje $Mensaje
  * @property PaginatorComponent $Paginator
  * @property FirebaseComponent $Firebase
  * @property FlashComponent $Flash
@@ -18,10 +19,12 @@ class MensajesController extends AppController {
  *
  * @var array
  */
-	public $components = array(
-	    'Paginator',
-        'Firebase',
-        'Flash');
+	public $components = array( 'Paginator','Firebase','Flash', 'Usuariosutil');
+
+    /** @var usuario */
+    private $Usuario;
+
+    //public $uses = array('Usuario');
 
 /**
  * index method
@@ -58,13 +61,15 @@ class MensajesController extends AppController {
 		if ($this->request->is('post')) {
             try {
                 $datos = $this->request->data;
-                //debug(($datos['Mensaje']['usuario_id']));
                 $registro_movil = $this->getFcmRegistro($datos['Mensaje']['usuario_id']);
+                $numero_movil = $this->getmovil($datos['Mensaje']['usuario_id']);
+                //debug($registro_movil);
                 try{
-                    $respuesta = $this->Firebase->envioUnicoUsuario($registro_movil, $datos);
+                    $respuesta = $this->Firebase->envioUnicoUsuario($registro_movil, $datos, $numero_movil);
                 } catch (Exception $e) {
                     new RuntimeException('Mensaje no enviado a usuario. '.$e);
                 }
+                debug("pasooo");
                 if($respuesta['Ok']) {
                     $this->Mensaje->create();
                     if ($this->Mensaje->save($this->request->data)) {
@@ -133,12 +138,19 @@ class MensajesController extends AppController {
 
     public function getFcmRegistro($id_usuario){
 	    $id = intval($id_usuario);
-        $consultaRegistro = $this->Usuario->find("first", array(
-            'conditions' => array('Usuario.' . $this->Usuario->primaryKey => $id),
+        $consultaRegistro = $this->Mensaje->Usuario->find("first", array(
+            'conditions' => array('Usuario.' . $this->Mensaje->Usuario->primaryKey => $id),
             'fields' => array('Usuario.fcm_registro')
         ));
         return $consultaRegistro['Usuario']['fcm_registro'];
     }
 
-
+    public function getmovil($id_usuario){
+        $id = intval($id_usuario);
+        $consultaMovil = $this->Mensaje->Usuario->find("first", array(
+            'conditions' => array('Usuario.' . $this->Mensaje->Usuario->primaryKey => $id),
+            'fields' => array('Usuario.movil_numero')
+        ));
+        return $consultaMovil['Usuario']['movil_numero'];
+    }
 }

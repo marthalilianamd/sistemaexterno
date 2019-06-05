@@ -68,7 +68,6 @@ class UsuariosWsController extends AppController{
         $Usuariosutil = new UsuariosUtilComponent();
         $acercadelusuario= $Usuariosutil->consultarUsuario($email);
         $contrasenacoincide = $Usuariosutil->verificarContrasena($email,$contrasena);
-
         $tokenmovil = $Usuariosutil->tokenMovil($email);
         if($acercadelusuario['existe']){
             if(!$tokenmovil['vacio']) {
@@ -78,16 +77,16 @@ class UsuariosWsController extends AppController{
             }else{
                 $response['email'] = $acercadelusuario['email'];
                 $response['igualcontrasena'] = $contrasenacoincide;
-                $response['token'] = "";
+                $response['token'] = $tokenmovil['token'];
             }
         }else {
-            $response['email'] = "";
+            $response['email'] = $acercadelusuario['email'];
             $response['igualcontrasena'] = $contrasenacoincide;
-            $response['token'] = "";
+            $response['token'] = $tokenmovil['token'];
         }
         $this->set(array(
             'response' => $response,
-            '_serialize' => 'response'
+            '_serialize' =>  'response'
         ));
     }
 }

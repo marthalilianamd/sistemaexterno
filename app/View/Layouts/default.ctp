@@ -20,6 +20,28 @@ $cakeDescription = __d('cake_dev', 'SISTEMA web EXTERNO');
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#config-web-app -->
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-messaging.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyBRL9FbxWHxQwuHxj6vMiKKl8Ih_wigPyc",
+            authDomain: "message-delivery-system.firebaseapp.com",
+            databaseURL: "https://message-delivery-system.firebaseio.com",
+            projectId: "message-delivery-system",
+            storageBucket: "message-delivery-system.appspot.com",
+            messagingSenderId: "1087302060910",
+            appId: "1:1087302060910:web:06d1269e64b85de9"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
 	<?php echo $this->Html->charset(); ?>
 	<title>
 		<?php echo $cakeDescription ?>:
@@ -42,17 +64,24 @@ $cakeDescription = __d('cake_dev', 'SISTEMA web EXTERNO');
 			<h1><?php echo $this->Html->link( 'SISTEMA WEB EXTERNO', array('controller' => 'mensajes','action'=>'index')); ?></h1>
             </div>
             <div style="float: right;">
-            <?php
-            echo $this->Html->link( "Cerrar sesión",   array('controller' => 'usuarios','action'=>'logout') );
-            echo "<br>";
-            ?>
+                <?php if($this->Session->read('Logueado')):?>
+                <?php
+                echo $this->Html->link( "Cerrar sesión",   array('controller' => 'usuarios','action'=>'logout') );
+                echo "<br>";
+                ?>
+                <?php endif; ?>
             </div>
         </div>
 		<div id="content">
-            <?php
-            echo $this->Html->link( "Inicio",   array('controller' => 'mensajes','action'=>'index') );
-            echo "<br>";
-            ?>
+            <div>
+                <?php if($this->Session->read('Logueado')):?>
+                    <?php echo $this->Html->link( "Inicio",   array('controller' => 'mensajes','action'=>'index'));?>
+                    <div style="float: right;">
+                        Bienvenido
+                        <?php echo $this->Html->link($this->Session->read('nombreusuario'),array('controller' => 'usuarios','action'=>'view', $this->Session->read('idusuario'))); ?>
+                    </div>
+                <?php endif; ?>
+        </div>
 			<?php echo $this->Flash->render(); ?>
 
 			<?php echo $this->fetch('content'); ?>
@@ -71,4 +100,5 @@ $cakeDescription = __d('cake_dev', 'SISTEMA web EXTERNO');
 	</div>
 	<?php /*echo $this->element('sql_dump'); */?>
 </body>
+
 </html>

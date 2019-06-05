@@ -4,7 +4,6 @@ App::uses('Component','Controller');
  * @property Usuario $usuario
  */
 class UsuariosUtilComponent extends Component{
-
     /** @var usuario */
     private $usuario;
     /**
@@ -13,6 +12,7 @@ class UsuariosUtilComponent extends Component{
     public function __construct() {
         $this->usuario =  ClassRegistry::init('Usuario');
     }
+
 
     /**
      * Verifica si existe email retorna el id del usuario dentro del sistema web
@@ -69,6 +69,14 @@ class UsuariosUtilComponent extends Component{
     public function existeUsuario($email){
         $filtro = array(
             'conditions' => array('Usuario.email' => $email)
+        );
+        return $this->usuario->find('first', $filtro);
+    }
+
+    public function obtenerUsuario($email){
+        $filtro = array(
+            'conditions' => array('Usuario.email' => $email),
+            'fields' => array('Usuario.nombre','Usuario.usuario_id',)
         );
         return $this->usuario->find('first', $filtro);
     }

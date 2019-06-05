@@ -26,21 +26,6 @@ class UsuariosController extends AppController {
         'Usuariosutil'
     );
 
-
-    public function beforeFilter() {
-        parent::beforeFilter();
-        $this->Auth->allow('login', 'add');
-        //$this->Auth->autoRedirect=false;
-
-    }
-
-    public function afterFilter(){
-        if($this->Session->read('Logueado')) {
-            $this->Auth->allow('add', 'delete', 'edit', 'view', 'index');
-            parent::afterFilter();
-        }
-    }
-
     public function login(){
         if($this->request->is('post')) {
             $existeusuario = $this->Usuariosutil->existeUsuario($this->data['Usuario']['email'],$this->data['Usuario']['contrasena']);
@@ -50,7 +35,9 @@ class UsuariosController extends AppController {
                 if ($okcontrasena) {
                     //Si existe se redirecciona al usuario a la aplicación creando una variable de sesión
                     $this->Flash->success(__('Bienvenido'));
-                    //$this->Session->write('Usuario',$user);
+                    $nombreuser = $this->Usuariosutil->obtenerUsuario($this->data['Usuario']['email']);
+                    $this->Session->write('nombreusuario',$nombreuser['Usuario']['nombre']);
+                    $this->Session->write('idusuario',$nombreuser['Usuario']['usuario_id']);
                     $this->Session->write('Logueado', true);
                     $this->logueado = true;
 
@@ -173,6 +160,20 @@ class UsuariosController extends AppController {
 
     public function encriptarCadena($cadena){
         return Security::hash($cadena,'sha256', true);
+    }
+
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow('login', 'add');
+        //$this->Auth->autoRedirect=false;
+
+    }
+
+    public function afterFilter(){
+        if($this->Session->read('Logueado')) {
+            $this->Auth->allow('add', 'delete', 'edit', 'view', 'index');
+            parent::afterFilter();
+        }
     }
 
 }

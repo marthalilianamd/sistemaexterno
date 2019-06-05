@@ -12,25 +12,30 @@ class FirebaseComponent extends Component
      * @return array
      * @throws Exception
      */
-    public function envioUnicoUsuario($reg_movil, $datosmensaje) {
+    public function envioUnicoUsuario($reg_movil, $datosmensaje, $numeromovil) {
         $datos = array(
             'to' => $reg_movil,
-            'notification' =>
-                array(
-                    'title' => $datosmensaje['Mensaje']['titulo'],
-                    'body' => $datosmensaje['Mensaje']['mensaje']
-            /*'data' => array(
-                'movil' => $datosmensaje['Mensaje']['titulo']
-            )*/
-            ));
+            'data' => array(
+                'title' => $datosmensaje['Mensaje']['titulo'],
+                'body' => $datosmensaje['Mensaje']['mensaje'],
+                'phone' => $numeromovil
+            ),
+            'priority' => 'high'
+        );
+
         return $this->enviarMensaje($datos);
     }
 
     // Envio de mensaje a multiples usuarios por registro movil en Firebase
-    public function envioMultipleUsuario($reg_moviles, $mensaje) {
+    public function envioMultipleUsuario($reg_moviles,$datosmensaje, $numeromovil) {
         $datos = array(
             'to' => $reg_moviles,
-            'data' => $mensaje,
+            'data' => array(
+                'title' => $datosmensaje['Mensaje']['titulo'],
+                'body' => $datosmensaje['Mensaje']['mensaje'],
+                'phone' => $numeromovil
+            ),
+            'priority' => 'high'
         );
         return $this->enviarMensaje($datos);
     }
@@ -45,24 +50,39 @@ class FirebaseComponent extends Component
         $key_api_firebase = Configure::read('FIREBASE_CONFIG.SERVER_KEY');
         $url_firebase_send = Configure::read('FIREBASE_CONFIG.URL_SEND');
         $resultado = array();
-        $request = array(
-            'method' => 'POST',
-            'header' => array(
-                'Authorization: key=' . $key_api_firebase,
-                'Content-Type:application/json'
-            ),
-        );
+
         $data = json_encode($datos);
-        //debug($data);
-        $httpSocket = new HttpSocket(array('ssl_verify_peer' =>false,'ssl_verify_host' => false,
+        debug($datos);
+
+        $datarequest = array(
+            'method' => 'POST',
+            'headers' => array(
+                'Authorization: key=' . $key_api_firebase,
+                'Content-Type: application/json'
+            ),
+            'body' => $data
+        );
+        print_r($datarequest);
+
+        $httpsocket = new HttpSocket(array('ssl_verify_peer' => false, 'ssl_verify_host' => false,
             'ssl_verify_peer_name' => false, 'ssl_allow_self_signed' => false));
         try {
-            $response = $httpSocket->post($url_firebase_send,$data,$request);
-        }catch (\Exception $e){
-            throw new \RuntimeException('Falló la solicitud post ',$e);
+            $response = $httpsocket->post($url_firebase_send,$datos,$datarequest);
+            print_r($response->context);
+            print_r($response->body);
+        }catch (SocketException $e){
+            debug('SockectException: '.$e);
+            throw new SocketException('Falló el llamado al servicio solicitud post ',$e);
         }
-        debug($response->code);
-        if($response->code === '200'){
+        debug('código: '.$response->code);
+        if(!isset($response->code) ||  $response->code !== '200'){
+            throw new RuntimeException("Falló la petición : {$response}");
+        }
+        debug('Petición exitosa!');
+
+        if($response->code == '200'){
+            debug('Peticón exitosa');
+            debug('Cuerpo de la respuesta: '.$response->body);
             $resultado['respuestaenvio'] = $response->body;
             $resultado['Ok'] = true;
             //throw new \RuntimeException('La respuesta de la petición no fue correcta');
