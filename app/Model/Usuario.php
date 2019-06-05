@@ -90,6 +90,16 @@ class Usuario extends AppModel {
                 'required' => false,
             ),
         ),
+        'estadotoken' => array(
+            'userDefined' => array(
+                'rule' => array('between', 1, 20),
+                //'message' => 'El mensaje no pueden enviarse vacio',
+                'allowEmpty' => true,
+                'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
         'fecha_creacion' => array(
             'datetime' => array(
                 'rule' => array('datetime'),

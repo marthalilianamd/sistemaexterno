@@ -68,24 +68,23 @@ class FirebaseComponent extends Component
             'ssl_verify_peer_name' => false, 'ssl_allow_self_signed' => false));
         try {
             $response = $httpsocket->post($url_firebase_send,$datos,$datarequest);
-            print_r($response->context);
-            print_r($response->body);
+            print_r("sii entra-->".$response->body);
         }catch (SocketException $e){
             debug('SockectException: '.$e);
             throw new SocketException('Falló el llamado al servicio solicitud post ',$e);
         }
         debug('código: '.$response->code);
-        if(!isset($response->code) ||  $response->code !== '200'){
+        if(!isset($response->code) ||  $response->code !== 200){
+            debug("entraa");
             throw new RuntimeException("Falló la petición : {$response}");
         }
         debug('Petición exitosa!');
 
-        if($response->code == '200'){
-            debug('Peticón exitosa');
+        if($response->code == 200){
+            debug('Petición exitosa');
             debug('Cuerpo de la respuesta: '.$response->body);
             $resultado['respuestaenvio'] = $response->body;
             $resultado['Ok'] = true;
-            //throw new \RuntimeException('La respuesta de la petición no fue correcta');
         }else{
             $resultado['respuestaenvio'] = '';
             $resultado['Ok'] = false;
