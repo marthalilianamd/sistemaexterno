@@ -27,22 +27,20 @@ class UsuariosWsController extends AppController{
         $acercadelusuario= $Usuariosutil->consultarUsuario($id);
         $tokenmovil = $Usuariosutil->tokenMovil($id);
         if($acercadelusuario['existe']){
-            //debug('vacio token? '.$vaciotoken);
-            /*if($tokenmovil['vacio']) {*/
                 $this->Usuario->id = $acercadelusuario['idusuario'];
-                //debug($this->request->data);
+                //Actualizacion estado del token a vigente cuando se registra desde la APP
+                $this->Usuario->estadotoken = 'Vigente';
                 if ($this->Usuario->save($this->request->data)) {
-                    //debug($this->Usuario->save($this->request->data));
                     $response['error'] = false;
                     $response['message'] = 'El movil se ha registrado en el sistema web exitosamente';
                 /*} else {
                     $response['error'] = true;
                     $response['message'] = 'Error al actualizar. El movil no fue registrado. Intentar de nuevo.';
                 } */
-            }else{
-                $response['error'] = true;
-                $response['message'] = 'El movil ya fue registrado. Por favor inicie sesion con su email y password.';
-            }
+                }else{
+                    $response['error'] = true;
+                    $response['message'] = 'El movil ya fue registrado. Por favor inicie sesion con su email y contraseña.';
+                }
         }else{
             $response['error'] = true;
             $response['message'] = 'El email no existe. Solicitar credenciales al administrador';

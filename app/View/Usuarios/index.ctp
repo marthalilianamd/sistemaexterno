@@ -25,6 +25,7 @@
         <td><?php echo h($usuario['Usuario']['contrasena']); ?>&nbsp;</td>
 		<td><?php echo h($usuario['Usuario']['movil_numero']); ?>&nbsp;</td>
         <td><?php echo h($usuario['Usuario']['fcm_registro']); ?>&nbsp;</td>
+        <td><?php echo h($usuario['Usuario']['estadotoken']); ?>&nbsp;</td>
         <td><?php echo h($usuario['Usuario']['fecha_creacion']); ?>&nbsp;</td>
 
 

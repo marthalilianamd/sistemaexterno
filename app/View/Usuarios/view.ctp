@@ -31,6 +31,11 @@
             <?php echo h($usuario['Usuario']['fcm_registro']); ?>
             &nbsp;
         </dd>
+        <dt><?php echo __('Estado Token'); ?></dt>
+        <dd>
+            <?php echo h($usuario['Usuario']['estadotoken']); ?>
+            &nbsp;
+        </dd>
         <dt><?php echo __('Fecha Creación'); ?></dt>
         <dd>
             <?php echo h($usuario['Usuario']['fecha_creacion']); ?>

@@ -93,7 +93,7 @@ class Usuario extends AppModel {
         'estadotoken' => array(
             'userDefined' => array(
                 'rule' => array('between', 1, 20),
-                //'message' => 'El mensaje no pueden enviarse vacio',
+                //'message' => '',
                 'allowEmpty' => true,
                 'required' => false,
                 //'last' => false, // Stop validation after this rule
