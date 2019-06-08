@@ -10,7 +10,7 @@ App::import('Component','UsuariosUtilComponent');
  * @property PaginatorComponent $Paginator
  * @property FlashComponent $Flash
  * @property AuthComponent $Auth
- * @property UsuariosUtilComponent $Usuariosutil
+ * @property UsuariosUtilComponent $UsuariosUtil
  */
 class UsuariosController extends AppController {
 
@@ -23,19 +23,19 @@ class UsuariosController extends AppController {
         'Flash',
         'Auth',
         'Session',
-        'Usuariosutil'
+        'UsuariosUtil'
     );
 
     public function login(){
         if($this->request->is('post')) {
-            $existeusuario = $this->Usuariosutil->existeUsuario($this->data['Usuario']['email'],$this->data['Usuario']['contrasena']);
+            $existeusuario = $this->UsuariosUtil->existeUsuario($this->data['Usuario']['email'],$this->data['Usuario']['contrasena']);
             if ($existeusuario !=null) {
-                $okcontrasena = $this->Usuariosutil->verificarContrasena($this->data['Usuario']['email'],
+                $okcontrasena = $this->UsuariosUtil->verificarContrasena($this->data['Usuario']['email'],
                     $this->data['Usuario']['contrasena']);
                 if ($okcontrasena) {
                     //Si existe se redirecciona al usuario a la aplicación creando una variable de sesión
                     $this->Flash->success(__('Bienvenido'));
-                    $nombreuser = $this->Usuariosutil->obtenerUsuario($this->data['Usuario']['email']);
+                    $nombreuser = $this->UsuariosUtil->obtenerUsuario($this->data['Usuario']['email']);
                     $this->Session->write('nombreusuario',$nombreuser['Usuario']['nombre']);
                     $this->Session->write('idusuario',$nombreuser['Usuario']['usuario_id']);
                     $this->Session->write('Logueado', true);

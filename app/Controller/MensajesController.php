@@ -11,7 +11,7 @@ App::import('Model', 'Usuario');
  * @property FirebaseComponent $Firebase
  * @property FlashComponent $Flash
  * @property AuthComponent $Auth
- * @property UsuariosUtilComponent $Usuariosutil
+ * @property UsuariosUtilComponent $UsuariosUtil
  */
 class MensajesController extends AppController {
 
@@ -20,7 +20,7 @@ class MensajesController extends AppController {
  *
  * @var array
  */
-	public $components = array( 'Paginator','Firebase','Flash', 'Usuariosutil');
+	public $components = array( 'Paginator','Firebase','Flash', 'UsuariosUtil');
 
     /** @var usuario */
     private $Usuario;
@@ -73,7 +73,7 @@ class MensajesController extends AppController {
                 if(isset($respuesta['Ok'])) {
                     if($respuesta['respuestaenvio']['success']== 1) { //que el mensaje fue enviado con token vigente
                         $this->Mensaje->create();
-                        $this->Usuariosutil->actualizarEstadoTokenUsuario($this->request->data['Mensaje']['usuario_id'],'Vigente');
+                        $this->UsuariosUtil->actualizarEstadoTokenUsuario($this->request->data['Mensaje']['usuario_id'],'Vigente');
                         if ($this->Mensaje->save($this->request->data)) {
                             $this->Flash->success(__('Mensaje enviado y guardado exitosamente!.'));
                             return $this->redirect(array('action' => 'index'));
@@ -81,7 +81,7 @@ class MensajesController extends AppController {
                             $this->Flash->set(__('El mensaje no fue guardado'));
                         }
                     }else{
-                        $this->Usuariosutil->actualizarEstadoTokenUsuario($this->request->data['Mensaje']['usuario_id'],'Caducado');
+                        $this->UsuariosUtil->actualizarEstadoTokenUsuario($this->request->data['Mensaje']['usuario_id'],'Caducado');
                         $this->Flash->set(__('El mensaje no fue enviado!'));
                         $this->Flash->set(__('El Token del movil caducado. El usuario de la App debe renovarlo'));
                     }

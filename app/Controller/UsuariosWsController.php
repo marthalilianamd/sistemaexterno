@@ -5,13 +5,13 @@ App::import('Component','UsuariosUtilComponent');
 App::import('Model', 'Usuario');
 /**
  * @property Usuario $Usuario
- * @property UsuariosUtilComponent $Usuariosutil
+ * @property UsuariosUtilComponent $UsuariosUtil
  */
 
 class UsuariosWsController extends AppController{
     //Componente para solicitudes HTTP REST - recibe y realiza acción
     //permite cambio de vista a tipo de contenido JSON
-    public $components = array('RequestHandler','Usuariosutil');
+    public $components = array('RequestHandler','UsuariosUtil');
     public $helpers = array ('Html','Form');
     public $uses = array('Usuario');
 
@@ -23,9 +23,9 @@ class UsuariosWsController extends AppController{
      * @return JsonSerializable
      */
     public function edit($id){
-        $Usuariosutil = new UsuariosUtilComponent();
-        $acercadelusuario= $Usuariosutil->consultarUsuario($id);
-        $tokenmovil = $Usuariosutil->tokenMovil($id);
+        $UsuariosUtil = new UsuariosUtilComponent();
+        $acercadelusuario= $UsuariosUtil->consultarUsuario($id);
+        $tokenmovil = $UsuariosUtil->tokenMovil($id);
         if($acercadelusuario['existe']){
                 $this->Usuario->id = $acercadelusuario['idusuario'];
                 //Actualizacion estado del token a vigente cuando se registra desde la APP
@@ -63,10 +63,10 @@ class UsuariosWsController extends AppController{
         $email = substr($id,0,$poscomodin);
         $contrasena = substr($id,$poscomodin+1,strlen($id)-1);
 
-        $Usuariosutil = new UsuariosUtilComponent();
-        $acercadelusuario= $Usuariosutil->consultarUsuario($email);
-        $contrasenacoincide = $Usuariosutil->verificarContrasena($email,$contrasena);
-        $tokenmovil = $Usuariosutil->tokenMovil($email);
+        $UsuariosUtil = new UsuariosUtilComponent();
+        $acercadelusuario= $UsuariosUtil->consultarUsuario($email);
+        $contrasenacoincide = $UsuariosUtil->verificarContrasena($email,$contrasena);
+        $tokenmovil = $UsuariosUtil->tokenMovil($email);
         if($acercadelusuario['existe']){
             if(!$tokenmovil['vacio']) {
                 $response['email'] = $acercadelusuario['email'];
