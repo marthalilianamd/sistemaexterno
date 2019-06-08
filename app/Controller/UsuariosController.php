@@ -1,7 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
 App::import('Model', 'Mensaje');
-App::import('Component','Usuariosutil');
+App::import('Component','UsuariosUtilComponent');
 /**
  * Usuarios Controller
  *

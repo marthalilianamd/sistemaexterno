@@ -1,7 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
 App::uses('Component', 'Controller');
-App::import('Component','Usuariosutil');
+App::import('Component','UsuariosUtilComponent');
 App::import('Model', 'Usuario');
 /**
  * Mensajes Controller
@@ -11,6 +11,7 @@ App::import('Model', 'Usuario');
  * @property FirebaseComponent $Firebase
  * @property FlashComponent $Flash
  * @property AuthComponent $Auth
+ * @property UsuariosUtilComponent $Usuariosutil
  */
 class MensajesController extends AppController {
 
