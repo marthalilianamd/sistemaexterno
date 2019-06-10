@@ -58,24 +58,25 @@ class FirebaseComponent extends Component
         $key_api_firebase = Configure::read('FIREBASE_CONFIG.SERVER_KEY');
         $url_firebase_send = Configure::read('FIREBASE_CONFIG.URL_SEND');
         $headers = array(
-                'Authorization: key=' . $key_api_firebase,
-                'Content-Type: application/json'
-        );
+            'Authorization:key='.$key_api_firebase,
+            'Content-Type:application/json');
+
         $data = json_encode($datos);
-        $httpsocket = new HttpSocket(array('ssl_verify_peer' => false, 'ssl_verify_host' => false,
-            'ssl_verify_peer_name' => false, 'ssl_allow_self_signed' => false));
+        //debug($data);
+        $httpsocket = new HttpSocket(array('ssl_verify_peer' => false,'ssl_verify_host' => false,
+            'ssl_verify_peer_name' => false, 'ssl_allow_self_signed' => true));
         try {
             $response = $httpsocket->post($url_firebase_send,$data,$headers);
-            print_r($response->body);
         }catch (SocketException $e){
             throw new SocketException('Falló el llamado al servicio solicitud post ',$e);
         }
-        if(!isset($response->code) ||  $response->code !== '200'){
+        print_r($response->body);
+        if(!isset($response->code) ||  !$response->isOk()){
             throw new RuntimeException("Falló la petición : {$response}");
         }
         debug('Petición exitosa!');
         $resultado = array();
-        if($response->code == '200'){
+        if($response->isOk()){
             debug('Petición exitosa');
             debug('Cuerpo de la respuesta: '.json_decode($response->body, true));
             $resultado['respuestaenvio'] = json_decode($response->body, true);

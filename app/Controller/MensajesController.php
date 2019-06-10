@@ -69,7 +69,7 @@ class MensajesController extends AppController {
                 } catch (Exception $e) {
                     new RuntimeException('Mensaje no enviado a usuario. '.$e);
                 }
-                debug("Llegando a comprobar");
+                //debug("Llegando a comprobar");
                 if(isset($respuesta['Ok'])) {
                     if($respuesta['respuestaenvio']['success']== 1) { //que el mensaje fue enviado con token vigente
                         $this->Mensaje->create();

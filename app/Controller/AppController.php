@@ -56,7 +56,7 @@ class AppController extends Controller {
             // this line should always be there to ensure that all rest calls are secure
             // forma más segura de proteger la aplicación de los ataques de intermediarios
             //$this->Security->requireSecure();
-            $this->Security->unlockedActions = array('edit','view');
+            $this->Security->unlockedActions = array('edit','view', 'add');
         }
         if((in_array($this->params['controller'],array('usuarios')) ||
             in_array($this->params['controller'],array('mensajes'))) && $this->Session->read('Logueado')){

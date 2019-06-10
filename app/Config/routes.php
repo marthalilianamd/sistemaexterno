@@ -33,19 +33,21 @@ Router::connect('/login', array('controller' => 'usuarios', 'action' => 'login')
  */
 	//Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
+
+//especifica el controlador que deberia soportar REST.
+Router::mapResources('usuariosws');
+Router::mapResources('mensajes');
+
+
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.
  */
 	CakePlugin::routes();
 
-//especifica el controlador que deberia soportar REST.
-Router::mapResources('usuariosws');
-
 //Le dice a cakephp que parsee las extensiones
 //Especifica el formato de resultado (JSON, XML, RSS)
 Router::parseExtensions('json');
-
 
 /**
  * Load the CakePHP default routes. Only remove this if you do not want to use
