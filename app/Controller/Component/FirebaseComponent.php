@@ -64,7 +64,7 @@ class FirebaseComponent extends Component
         $data = json_encode($datos);
         //debug($data);
         $httpsocket = new HttpSocket(array('ssl_verify_peer' => false,'ssl_verify_host' => false,
-            'ssl_verify_peer_name' => false, 'ssl_allow_self_signed' => true));
+            'ssl_verify_peer_name' => false, 'ssl_allow_self_signed' => false));
         try {
             $response = $httpsocket->post($url_firebase_send,$data,$headers);
         }catch (SocketException $e){
