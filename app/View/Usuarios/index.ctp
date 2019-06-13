@@ -1,5 +1,5 @@
 <div class="usuarios index">
-	<h2><?php echo __('Usuarios'); ?></h2>
+	<h2><?php echo __('Usuarios autorizados para registro móvil'); ?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>
@@ -9,6 +9,7 @@
             <th><?php echo $this->Paginator->sort('Contraseña'); ?></th>
 			<th><?php echo $this->Paginator->sort('Móvil'); ?></th>
             <th><?php echo $this->Paginator->sort('Token móvil'); ?></th>
+            <th><?php echo $this->Paginator->sort('Estado Token'); ?></th>
             <th><?php echo $this->Paginator->sort('Fecha Creación'); ?></th>
 			<th class="actions"><?php echo __('Acciones'); ?></th>
 	</tr>

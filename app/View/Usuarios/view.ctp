@@ -26,12 +26,12 @@
 			<?php echo h($usuario['Usuario']['movil_numero']); ?>
 			&nbsp;
 		</dd>
-        <dt><?php echo __('Registro Móvil fcm'); ?></dt>
+        <dt><?php echo __('Token Móvil'); ?></dt>
         <dd>
             <?php echo h($usuario['Usuario']['fcm_registro']); ?>
             &nbsp;
         </dd>
-        <dt><?php echo __('Estado Token'); ?></dt>
+        <dt><?php echo __('Estado Token Móvil'); ?></dt>
         <dd>
             <?php echo h($usuario['Usuario']['estadotoken']); ?>
             &nbsp;
@@ -64,6 +64,7 @@
 		<th><?php echo __('Mensaje Id'); ?></th>
 		<th><?php echo __('Usuario Id'); ?></th>
 		<th><?php echo __('Mensaje'); ?></th>
+        th><?php echo __('Estado'); ?></th
 		<th><?php echo __('Fecha Creacion'); ?></th>
 		<th class="actions"><?php echo __('Acciones'); ?></th>
 	</tr>
@@ -72,6 +73,7 @@
 			<td><?php echo $mensaje['mensaje_id']; ?></td>
 			<td><?php echo $mensaje['usuario_id']; ?></td>
 			<td><?php echo $mensaje['mensaje']; ?></td>
+            <td><?php echo $mensaje['estado']; ?></td>
 			<td><?php echo $mensaje['fecha_creacion']; ?></td>
 			<td class="actions">
 				<?php echo $this->Html->link(__('Ver'), array('controller' => 'mensajes', 'action' => 'view', $mensaje['mensaje_id'])); ?>
