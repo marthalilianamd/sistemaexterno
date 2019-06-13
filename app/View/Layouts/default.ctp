@@ -14,7 +14,7 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = __d('cake_dev', 'SISTEMA web EXTERNO');
+$cakeDescription = __d('cake_dev', 'SISTEMA WEB EXTERNO');
 /*$cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())*/
 ?>
 <!DOCTYPE html>

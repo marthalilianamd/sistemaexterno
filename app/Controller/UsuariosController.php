@@ -40,19 +40,19 @@ class UsuariosController extends AppController {
                     $this->Session->write('nombreusuario',$nombreuser['Usuario']['nombre']);
                     $this->Session->write('idusuario',$nombreuser['Usuario']['usuario_id']);
                     $this->Session->write('Logueado', true);
-                    $this->logueado = true;
-
                     $this->Redirect(array('controller' => 'mensajes', 'action' => 'index'));
                     exit();
                 } else {
                     //Si los datos no son correctos se comunica al usuario y se le devuelve al mismo
                     //formulario de login
                     $this->Flash->set(__('Datos incorrectos'));
+                    $this->Session->write('Logueado',false);
                     $this->Redirect(array('action' => 'login'));
                     exit();
                 }
             } else {
                 $this->Flash->set(__('El usuario no existe'));
+                $this->Session->write('Logueado',false);
                 $this->Redirect(array('action' => 'login'));
                 exit();
             }

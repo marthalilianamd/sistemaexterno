@@ -50,13 +50,17 @@ class AppController extends Controller {
 
     //dividir las solicitudes de entrada para saber si es controlador de Rest y otro
     public function beforeFilter() {
-        if(in_array($this->params['controller'],array('usuariosws'))){
+        if(in_array($this->params['controller'],array('usuariosws')) ){
             // For RESTful web service requests, we check the name of our contoller
             $this->Auth->allow();
             // this line should always be there to ensure that all rest calls are secure
             // forma más segura de proteger la aplicación de los ataques de intermediarios
             //$this->Security->requireSecure();
             $this->Security->unlockedActions = array('edit','view', 'add');
+        }
+        if(in_array($this->params['controller'],array('mensajesws')) ){
+            $this->Auth->allow();
+            $this->Security->unlockedActions = array('edit');
         }
         if((in_array($this->params['controller'],array('usuarios')) ||
             in_array($this->params['controller'],array('mensajes')))&& $this->Session->read('Logueado')){

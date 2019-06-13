@@ -12,18 +12,19 @@ class FirebaseComponent extends Component
      * @return array
      * @throws Exception
      */
-    public function envioUnicoUsuario($reg_movil, $datosmensaje, $numeromovil) {
+    public function envioUnicoUsuario($reg_movil, $datosmensaje, $numeromovil, $id_mensaje) {
         $datos = array(
             'to' => $reg_movil,
             'data' => array(
                 'title' => $datosmensaje['Mensaje']['titulo'],
                 'body' => $datosmensaje['Mensaje']['mensaje'],
-                'phone' => $numeromovil
+                'phone' => $numeromovil,
+                'id_message' => $id_mensaje
             ),
-            'priority' => 'high',
-            'android' => array (
+            'priority' => 'high'
+            /*'android' => array (
                 'ttl' => '900s'
-            )
+            )*/
         );
 
         return $this->enviarMensaje($datos);

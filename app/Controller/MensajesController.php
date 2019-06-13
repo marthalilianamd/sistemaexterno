@@ -64,8 +64,9 @@ class MensajesController extends AppController {
                 $datos = $this->request->data;
                 $registro_movil = $this->getFcmRegistro($datos['Mensaje']['usuario_id']);
                 $numero_movil = $this->getmovil($datos['Mensaje']['usuario_id']);
+                $id_mensaje = $datos['Mensaje']['mensaje_id'];
                 try{
-                    $respuesta = $this->Firebase->envioUnicoUsuario($registro_movil, $datos, $numero_movil);
+                    $respuesta = $this->Firebase->envioUnicoUsuario($registro_movil, $datos, $numero_movil,$id_mensaje);
                 } catch (Exception $e) {
                     new RuntimeException('Mensaje no enviado a usuario. '.$e);
                 }

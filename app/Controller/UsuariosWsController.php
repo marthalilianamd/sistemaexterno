@@ -29,7 +29,7 @@ class UsuariosWsController extends AppController{
         if($acercadelusuario['existe']){
                 $this->Usuario->id = $acercadelusuario['idusuario'];
                 //Actualizacion estado del token a vigente cuando se registra desde la APP
-                $this->Usuario->estadotoken = 'Vigente';
+                //$this->Usuario->estadotoken = 'Vigente';
                 if ($this->Usuario->save($this->request->data)) {
                     $response['error'] = false;
                     $response['message'] = 'El movil se ha registrado en el sistema web exitosamente';
@@ -39,7 +39,7 @@ class UsuariosWsController extends AppController{
                 } */
                 }else{
                     $response['error'] = true;
-                    $response['message'] = 'El movil ya fue registrado. Por favor inicie sesion con su email y contraseña.';
+                    $response['message'] = 'El movil ya fue registrado. Por favor inicie sesión con su email y contraseña.';
                 }
         }else{
             $response['error'] = true;

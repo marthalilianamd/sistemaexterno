@@ -35,6 +35,7 @@ Router::connect('/login', array('controller' => 'usuarios', 'action' => 'login')
 
 //especifica el controlador que deberia soportar REST.
 Router::mapResources('usuariosws');
+Router::mapResources('mensajesws');
 
 
 /**
