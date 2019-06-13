@@ -82,12 +82,29 @@ class UsuariosUtilComponent extends Component{
     }
 
     public function actualizarEstadoTokenUsuario($id,$estadoactual){
-        $filtro = array(
+        /*$filtro = array(
             'conditions' => array('Usuario.id' => $id),
             'fields' => array('Usuario.estadotoken')
         );
         $campoEstadoToken = $this->usuario->find('first', $filtro);
         $campoEstadoToken['Usuario']['estadotoken'] = $estadoactual;
+        */
+
+        debug("actualizarEstadoTokenUsuario");
+        $this->usuario->id = $id;
+        try {
+            $this->usuario->save($this->usuario->estadotoken = $estadoactual);
+        } catch (Exception $e) {
+            new Exception("El estado del token móvil no pudo ser guardado");
+        }
+    }
+    public function obtenerDatosUsuario($id){
+        $filtro = array(
+            'conditions' => array('Usuario.usuario_id' => $id),
+            'fields' => array('Usuario.nombre','Usuario.movil_numero','Usuario.estadotoken',
+                'Usuario.fcm_registro')
+        );
+        return $this->usuario->find('first', $filtro);
     }
 
 }

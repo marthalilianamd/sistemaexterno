@@ -27,6 +27,7 @@ class UsuariosController extends AppController {
     );
 
     public function login(){
+        $this->Session->write('Logueado', false);
         if($this->request->is('post')) {
             $existeusuario = $this->UsuariosUtil->existeUsuario($this->data['Usuario']['email'],$this->data['Usuario']['contrasena']);
             if ($existeusuario !=null) {

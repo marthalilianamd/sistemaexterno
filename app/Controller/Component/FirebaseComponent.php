@@ -20,7 +20,10 @@ class FirebaseComponent extends Component
                 'body' => $datosmensaje['Mensaje']['mensaje'],
                 'phone' => $numeromovil
             ),
-            'priority' => 'high'
+            'priority' => 'high',
+            'android' => array (
+                'ttl' => '900s'
+            )
         );
 
         return $this->enviarMensaje($datos);
@@ -43,7 +46,10 @@ class FirebaseComponent extends Component
                 'body' => $datosmensaje['Mensaje']['mensaje'],
                 'phone' => $numeromovil
             ),
-            'priority' => 'high'
+            'priority' => 'high',
+            'android' => array (
+                'ttl' => '900s'
+            )
         );
         return $this->enviarMensaje($datos);
     }
@@ -57,33 +63,34 @@ class FirebaseComponent extends Component
     public function enviarMensaje($datos) {
         $key_api_firebase = Configure::read('FIREBASE_CONFIG.SERVER_KEY');
         $url_firebase_send = Configure::read('FIREBASE_CONFIG.URL_SEND');
-        $headers = array(
-            'Authorization:key='.$key_api_firebase,
-            'Content-Type:application/json');
 
         $data = json_encode($datos);
-        //debug($data);
+        $header = array(
+            'header' => array(
+                'Authorization' => 'key='.$key_api_firebase,
+                'Content-Type' => 'application/json'
+        ));
+
         $httpsocket = new HttpSocket(array('ssl_verify_peer' => false,'ssl_verify_host' => false,
-            'ssl_verify_peer_name' => false, 'ssl_allow_self_signed' => false));
+            'ssl_verify_peer_name' => false, 'ssl_allow_self_signed' => false));;
         try {
-            $response = $httpsocket->post($url_firebase_send,$data,$headers);
+            $response = $httpsocket->post($url_firebase_send,$data,$header);
         }catch (SocketException $e){
             throw new SocketException('Falló el llamado al servicio solicitud post ',$e);
         }
-        print_r($response->body);
         if(!isset($response->code) ||  !$response->isOk()){
-            throw new RuntimeException("Falló la petición : {$response}");
+            throw new RuntimeException("Falló la petición : {$response->body}");
         }
-        debug('Petición exitosa!');
-        $resultado = array();
         if($response->isOk()){
-            debug('Petición exitosa');
-            debug('Cuerpo de la respuesta: '.json_decode($response->body, true));
-            $resultado['respuestaenvio'] = json_decode($response->body, true);
-            $resultado['Ok'] = true;
+            $resultado = array(
+                'respuestaenvio' => json_decode($response->body),
+                'Ok' => true
+            );
         }else{
-            $resultado['respuestaenvio'] = '';
-            $resultado['Ok'] = false;
+            $resultado = array(
+                'respuestaenvio' => '',
+                'Ok' => false
+            );
         }
         return $resultado;
     }
