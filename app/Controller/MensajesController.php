@@ -64,22 +64,19 @@ class MensajesController extends AppController {
                 $datos = $this->request->data;
                 $registro_movil = $this->getFcmRegistro($datos['Mensaje']['usuario_id']);
                 $numero_movil = $this->getmovil($datos['Mensaje']['usuario_id']);
-                $id_mensaje = $datos['Mensaje']['mensaje_id'];
                 try{
-                    $respuesta = $this->Firebase->envioUnicoUsuario($registro_movil, $datos, $numero_movil,$id_mensaje);
+                    $respuesta = $this->Firebase->envioUnicoUsuario($registro_movil, $datos, $numero_movil);
                 } catch (Exception $e) {
                     new RuntimeException('Mensaje no enviado a usuario. '.$e);
                 }
                 if(isset($respuesta['Ok'])) {
-
                     $idusuariomensaje= $this->request->data['Mensaje']['usuario_id'];
                     $datosusuario = $this->UsuariosUtil->obtenerDatosUsuario($idusuariomensaje);
                     if($respuesta['respuestaenvio']->{"success"} !== 0) {
                         //que el mensaje fue enviado con token vigente
                         $this->Mensaje->create();
                         if ($this->Mensaje->save($this->request->data)) {
-                            //$this->Mensaje->estado = 'Enviado';
-                            $this->actualizarEstadoMensaje("Enviado");
+                            $this->Mensaje->saveField('estado', 'Entregado');
                             $this->Flash->success(__("Mensaje enviado exitosamente al móvil ". $datosusuario['Usuario']['movil_numero']));
                             $this->UsuariosUtil->actualizarEstadoTokenUsuario($idusuariomensaje,'Vigente');
                             return $this->redirect(array('action' => 'index'));

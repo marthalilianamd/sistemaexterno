@@ -89,8 +89,6 @@ class UsuariosUtilComponent extends Component{
         $campoEstadoToken = $this->usuario->find('first', $filtro);
         $campoEstadoToken['Usuario']['estadotoken'] = $estadoactual;
         */
-
-        debug("actualizarEstadoTokenUsuario");
         $this->usuario->id = $id;
         try {
             $this->usuario->save($this->usuario->estadotoken = $estadoactual);

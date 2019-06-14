@@ -23,15 +23,24 @@ class MensajeWsController extends AppController{
      * @return JsonSerializable
      */
     public function edit($id){
-        $this->Mensaje->id = $id;
-        if ($this->Mensaje->save($this->request->data)) {
-            $response['error'] = false;
-            $response['message'] = 'Estado del mensaje almacenado en el servidor web';
+        $UsuariosUtil = new UsuariosUtilComponent();
+        $acercadelusuario= $UsuariosUtil->consultarUsuario($id);
+        if($acercadelusuario['existe']) {
+            $this->Mensaje->usuario_id = $acercadelusuario['usuario_id'];
 
+            if ($this->Mensaje->save($this->request->data)) {
+                $response['error'] = false;
+                $response['message'] = 'Estado del mensaje almacenado en el servidor web';
+
+            } else {
+                $response['error'] = true;
+                $response['message'] = 'Error. No fue posible guardar el estado del mensaje';
+            }
         }else{
             $response['error'] = true;
-            $response['message'] = 'Error. No fue posible guardar el estado del mensaje';
+            $response['message'] = 'Error. Enviando a guardar el estado del mensaje.';
         }
+
        $this->set(array(
            'response' => $response,
            '_serialize' => 'response'
