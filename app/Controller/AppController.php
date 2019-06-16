@@ -50,7 +50,8 @@ class AppController extends Controller {
 
     //dividir las solicitudes de entrada para saber si es controlador de Rest y otro
     public function beforeFilter() {
-        if(in_array($this->params['controller'],array('usuariosws')) ){
+        if(in_array($this->params['controller'],array('usuariosws')) ||
+            in_array($this->params['controller'],array('mensajesws'))){
             // For RESTful web service requests, we check the name of our contoller
             $this->Auth->allow();
             // this line should always be there to ensure that all rest calls are secure
@@ -58,19 +59,16 @@ class AppController extends Controller {
             //$this->Security->requireSecure();
             $this->Security->unlockedActions = array('edit','view', 'add');
         }
-        if(in_array($this->params['controller'],array('mensajesws')) ){
-            $this->Auth->allow();
-            $this->Security->unlockedActions = array('edit');
-        }
         if((in_array($this->params['controller'],array('usuarios')) ||
-            in_array($this->params['controller'],array('mensajes')))&& $this->Session->read('Logueado')){
+            in_array($this->params['controller'],array('mensajes'))) && $this->Session->read('Logueado')){
             // setup out Auth
             $this->Auth->allow();
             $this->set('logged_in', $this->Auth->loggedIn());
             $this->Security->unlockedActions = array('login','add','edit','delete','index','view');
-        }
-        if(!$this->Session->read('Logueado')){
-            $this->Auth->allow('login');
+        }else{
+            if(!$this->Session->read('Logueado')){
+                $this->Auth->allow('login');
+            }
         }
         parent::beforeFilter();
     }

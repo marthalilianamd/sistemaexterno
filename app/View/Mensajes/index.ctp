@@ -21,7 +21,7 @@
 		    <?php echo h($mensaje['Mensaje']['mensaje_id']); ?>
 		</td>
 		<td>
-		<?php echo h($mensaje['Mensaje']['usuario_id']); ?>&nbsp;
+        <?php echo ($this->Html->link($mensaje['Usuario']['nombre'], array('controller' => 'usuarios', 'action' => 'view', $mensaje['Usuario']['usuario_id']))); ?>
 		</td>
         <td><?php echo h($mensaje['Mensaje']['titulo']); ?>&nbsp;</td>
 		<td><?php echo h($mensaje['Mensaje']['mensaje']); ?>&nbsp;</td>
