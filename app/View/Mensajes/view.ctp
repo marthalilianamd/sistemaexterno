@@ -16,7 +16,17 @@
 			<?php echo h($mensaje['Mensaje']['mensaje']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Fecha Creacion'); ?></dt>
+        <dt><?php echo __('Estado Entrega al móvil'); ?></dt>
+        <dd>
+            <?php echo h($mensaje['Mensaje']['estado']); ?>
+            &nbsp;
+        </dd>
+        <dt><?php echo __('Estado final SMS'); ?></dt>
+        <dd>
+            <?php echo h($mensaje['Mensaje']['estadosms']); ?>
+            &nbsp;
+        </dd>
+		<dt><?php echo __('Fecha envío'); ?></dt>
 		<dd>
 			<?php echo h($mensaje['Mensaje']['fecha_creacion']); ?>
 			&nbsp;

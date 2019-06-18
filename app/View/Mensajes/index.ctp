@@ -1,14 +1,16 @@
 <div class="mensajes index">
-	<h2><?php echo __('Mensajes Enviados a Móviles'); ?></h2>
+	<h2><?php echo __('Mensajes enviados a móviles'); ?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>
-			<th><?php echo $this->Paginator->sort('mensaje_id', 'Id mensaje'); ?></th>
-			<th><?php echo $this->Paginator->sort('usuario_id', 'Usuario'); ?></th>
-            <th><?php echo $this->Paginator->sort('titulo', 'Título'); ?></th>
-			<th><?php echo $this->Paginator->sort('mensaje', 'Texto'); ?></th>
-            <th><?php echo $this->Paginator->sort('estado', 'Estado'); ?></th>
-			<th><?php echo $this->Paginator->sort('fecha_creacion', 'Fecha Creación'); ?></th>
+            <th><?php echo $this->Paginator->sort('mensaje_id', 'Id'); ?></th>
+            <th><?php echo $this->Paginator->sort('mensajes.usuario_id', 'De'); ?></th>
+            <th><?php echo $this->Paginator->sort('usuarios.usuario_id', 'Para'); ?></th>
+            <th><?php echo $this->Paginator->sort('titulo', 'Asunto'); ?></th>
+			<th><?php echo $this->Paginator->sort('mensaje', 'Contenido Mensaje'); ?></th>
+            <th><?php echo $this->Paginator->sort('estado', 'Estado Entrega a móvil'); ?></th>
+            <th><?php echo $this->Paginator->sort('estadosms', 'Estado final SMS'); ?></th>
+			<th><?php echo $this->Paginator->sort('fecha_creacion', 'Fecha de envío'); ?></th>
 			<th class="actions"><?php echo __('Acciones'); ?></th>
 	</tr>
 	</thead>
@@ -20,16 +22,23 @@
                 array('controller' => 'mensajes', 'action' => 'view', $mensaje['Mensaje']['mensaje_id'])); */?>
 		    <?php echo h($mensaje['Mensaje']['mensaje_id']); ?>
 		</td>
-		<td>
-        <?php echo ($this->Html->link($mensaje['Usuario']['nombre'], array('controller' => 'usuarios', 'action' => 'view', $mensaje['Usuario']['usuario_id']))); ?>
+        <td>
+            <?php echo ($this->Html->link($mensaje['Usuario']['nombre'], array('controller' => 'usuarios', 'action' => 'view', $mensaje['Mensaje']['usuario_id']))); ?>
 		</td>
+        <td>
+            <?php echo ($this->Html->link($mensaje['Mensaje']['usuariodestino_id'], array('controller' => 'usuarios', 'action' => 'view', $mensaje['Mensaje']['usuariodestino_id']))); ?>
+        </td>
+        <!--<td>
+            <?php /*echo $this->Html->link($this->Session->read('nombreusuario'),array('controller' => 'usuarios','action'=>'view', $this->Session->read('idusuario'))); */?>
+        </td>-->
         <td><?php echo h($mensaje['Mensaje']['titulo']); ?>&nbsp;</td>
 		<td><?php echo h($mensaje['Mensaje']['mensaje']); ?>&nbsp;</td>
         <td><?php echo h($mensaje['Mensaje']['estado']); ?>&nbsp;</td>
+        <td><?php echo h($mensaje['Mensaje']['estadosms']); ?>&nbsp;</td>
 		<td><?php echo h($mensaje['Mensaje']['fecha_creacion']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('Ver'), array('action' => 'view', $mensaje['Mensaje']['mensaje_id'])); ?>
-			<?php echo $this->Html->link(__('Editar'), array('action' => 'edit', $mensaje['Mensaje']['mensaje_id'])); ?>
+			<?php /*echo $this->Html->link(__('Editar'), array('action' => 'edit', $mensaje['Mensaje']['mensaje_id'])); */?>
 			<?php echo $this->Form->postLink(__('Eliminar'), array('action' => 'delete', $mensaje['Mensaje']['mensaje_id']),
                 array('confirm' => __('Está seguro de eliminar este mensaje # %s?', $mensaje['Mensaje']['mensaje_id']))); ?>
 		</td>
@@ -40,7 +49,7 @@
 	<p>
 	<?php
 	echo $this->Paginator->counter(array(
-		'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
+		'format' => __('Página {:page} of {:pages}, mostrando {:current} registros de {:count} total, iniciando en {:start}, finalizando en  {:end}')
 	));
 	?>	</p>
 	<div class="paging">

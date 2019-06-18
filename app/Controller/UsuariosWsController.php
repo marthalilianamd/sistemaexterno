@@ -33,10 +33,6 @@ class UsuariosWsController extends AppController{
                 if ($this->Usuario->save($this->request->data)) {
                     $response['error'] = false;
                     $response['message'] = 'El movil se ha registrado en el sistema web exitosamente';
-                /*} else {
-                    $response['error'] = true;
-                    $response['message'] = 'Error al actualizar. El movil no fue registrado. Intentar de nuevo.';
-                } */
                 }else{
                     $response['error'] = true;
                     $response['message'] = 'El movil ya fue registrado. Por favor inicie sesión con su email y contraseña.';

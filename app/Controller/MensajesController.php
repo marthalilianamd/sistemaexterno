@@ -20,7 +20,7 @@ class MensajesController extends AppController {
  *
  * @var array
  */
-	public $components = array( 'Paginator','Firebase','Flash', 'UsuariosUtil');
+	public $components = array( 'Paginator','Firebase','Flash', 'UsuariosUtil','RequestHandler');
 
     /** @var usuario */
     private $Usuario;
@@ -63,47 +63,60 @@ class MensajesController extends AppController {
             try {
                 $datos = $this->request->data;
                 $registro_movil = $this->getFcmRegistro($datos['Mensaje']['usuario_id']);
-                $numero_movil = $this->getmovil($datos['Mensaje']['usuario_id']);
+                $numero_movil = $this->getmovil($datos['usuarios']['usuario_id']);
                 try{
                     $respuesta = $this->Firebase->envioUnicoUsuario($registro_movil, $datos, $numero_movil);
                 } catch (Exception $e) {
                     new RuntimeException('Mensaje no enviado a usuario. '.$e);
                 }
                 if(isset($respuesta['Ok'])) {
-                    $idusuariomensaje= $this->request->data['Mensaje']['usuario_id'];
+                    $idusuariomensaje= $this->request->data['usuarios']['usuario_id'];
                     $datosusuario = $this->UsuariosUtil->obtenerDatosUsuario($idusuariomensaje);
                     if($respuesta['respuestaenvio']->{"success"} !== 0) {
                         //que el mensaje fue enviado con token vigente
+                        $this->Mensaje->usuariodestino_id = $datos['usuarios']['usuario_id'];
                         $this->Mensaje->create();
                         if ($this->Mensaje->save($this->request->data)) {
+                            $this->Mensaje->saveField('usuariodestino_id', $datos['usuarios']['usuario_id']);
                             $this->Mensaje->saveField('estado', 'Entregado');
+                            $idusuariodestino = $datos['usuarios']['usuario_id'];
+                            $this->set(compact( 'idusuariodestino'));
                             $this->Flash->success(__("Mensaje enviado exitosamente al móvil ". $datosusuario['Usuario']['movil_numero']));
                             $this->UsuariosUtil->actualizarEstadoTokenUsuario($idusuariomensaje,'Vigente');
                             return $this->redirect(array('action' => 'index'));
                         } else {
-                            $this->Flash->set(__('El mensaje no pudo ser guardado en base de datos de este sistema'));
+                            $this->Mensaje->saveField('estado', 'No entregado');
+                            $this->Flash->set(__('El mensaje no pudo ser guardado en base de datos de este sistema externo'));
+                            return $this->redirect(array('action' => 'index'));
                         }
                     }else
                         if($respuesta['respuestaenvio']->{"results"}[0]->{"error"} =='MissingRegistration'){
                             $this->Flash->set(__("Móvil sin token. No está registrado en la App. Mensaje no enviado al ". $datosusuario['Usuario']['movil_numero']));
+                            $this->Mensaje->saveField('estado', 'No entregado');
                             $this->UsuariosUtil->actualizarEstadoTokenUsuario($idusuariomensaje,'No existe');
                             return $this->redirect(array('action' => 'index'));
                         }
                         if($respuesta['respuestaenvio']->{"results"}[0]->{"error"} =='InvalidRegistration'){
                             $this->Flash->set(__('Token del móvil inválido. Está corrupto!. Mensaje no enviado '));
+                            $this->Mensaje->saveField('estado', 'No entregado');
                             return $this->redirect(array('action' => 'index'));
                         }
                         if($respuesta['respuestaenvio']->{"results"}[0]->{"error"} =='NotRegistered'){
                             $this->Flash->set(__("Token del móvil caducado. Mensaje no enviado al ". $datosusuario['Usuario']['movil_numero']));
+                            $this->Mensaje->saveField('estado', 'No entregado');
                             $this->UsuariosUtil->actualizarEstadoTokenUsuario($idusuariomensaje,'Caducado');
                             return $this->redirect(array('action' => 'index'));
                         }
                         if($respuesta['respuestaenvio']->{"results"}[0]->{"error"} =='MessageTooBig'){
+                            $this->Mensaje->saveField('estado', 'No entregado');
                             $this->Flash->set(__("El mensaje excede el tamaño permitido por políticas. Por favor reducir su contenido". $datosusuario['Usuario']['movil_numero']));
+                            return $this->redirect(array('action' => 'index'));
                         }
                 }else{
                     $this->Flash->set(__('Mensaje no enviado!'));
-                    $this->Flash->set(__('Error con la plataforma de mensajes'));
+                    $this->Mensaje->saveField('estado', 'No entregado');
+                    $this->Flash->set(__('Error con la petición a la plataforma de mensajes Firebase'));
+                    return $this->redirect(array('action' => 'index'));
                 }
             } catch (Exception $e) {
                 new RuntimeException('Error, guardando el mensaje en DB. '.$e);
@@ -179,13 +192,6 @@ class MensajesController extends AppController {
     }
 
     public function actualizarEstadoMensaje($estado){
-        /*$filtro = array(
-            'conditions' => array('Usuario.id' => $id),
-            'fields' => array('Usuario.estadotoken')
-        );
-        $campoEstadoToken = $this->usuario->find('first', $filtro);
-        $campoEstadoToken['Usuario']['estadotoken'] = $estadoactual;
-        */
         try {
             $this->Mensaje->save($this->Mensaje->estado = $estado);
         } catch (Exception $e) {

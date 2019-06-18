@@ -4,14 +4,14 @@
 	<fieldset>
 		<legend><?php echo __('Enviar Mensaje'); ?></legend>
 	<?php
-		echo $this->Form->input('usuario_id',array('Usuario.fcm_registro !=' => ''));
-		echo $this->Form->input('titulo');
-        echo $this->Form->input('mensaje');
-		echo $this->Form->input('fecha_creacion');
+		echo $this->Form->input('usuario_id',array('label' => 'De:'));
+        echo $this->Form->input('usuarios.usuario_id', array('label' => 'Para:', 'value'=>'usuarios.usuario_id'));
+		echo $this->Form->input('titulo',array('label' => 'Asunto: ','type' => 'text'));
+        echo $this->Form->input('mensaje',array('label' => 'Contenido del mensaje:', 'type' => 'textarea'));
 	?>
+    <?php echo $this->Form->end(__('Enviar'));?>
 	</fieldset>
-<?php echo $this->Form->end(__('Enviar'));
-?>
+
 
 </div>
 <div class="actions">

@@ -38,6 +38,21 @@ class Mensaje extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
+        'usuariodestino_id' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+                //'message' => 'Your custom message here',
+                //'allowEmpty' => false,
+                //'required' => true,
+                //'on' => 'create' ,
+                //'last' => false, // Stop validation after this rule
+                // // Limit validation to 'create' or 'update' operations
+            ),
+            'between' => array(
+                'rule' => array('lengthBetween', 9, 11),
+                'message' => 'Número entre 9 a 11 digitos'
+            ),
+        ),
 		'titulo' => array(
             'userDefined' => array(
                 'rule' => array('between', 1, 50),
@@ -61,6 +76,16 @@ class Mensaje extends AppModel {
         'estado' => array(
             'userDefined' => array(
                 'rule' => array('between', 1, 20),
+                //'message' => 'El mensaje no pueden enviarse vacio',
+                'allowEmpty' => true,
+                'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'estadosms' => array(
+            'userDefined' => array(
+                'rule' => array('between', 1, 50),
                 //'message' => 'El mensaje no pueden enviarse vacio',
                 'allowEmpty' => true,
                 'required' => false,

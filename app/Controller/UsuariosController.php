@@ -23,7 +23,8 @@ class UsuariosController extends AppController {
         'Flash',
         'Auth',
         'Session',
-        'UsuariosUtil'
+        'UsuariosUtil',
+        'RequestHandler'
     );
 
     public function login(){
