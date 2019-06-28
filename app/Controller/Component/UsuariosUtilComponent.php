@@ -2,15 +2,21 @@
 App::uses('Component','Controller');
 /**
  * @property Usuario $usuario
+ * @property Mensaje $mensaje
  */
 class UsuariosUtilComponent extends Component{
     /** @var usuario */
     private $usuario;
+
+    /** @var mensaje */
+    private $mensaje;
+
     /**
      * UsuariosUtilComponent constructor.
      */
     public function __construct() {
         $this->usuario =  ClassRegistry::init('Usuario');
+        $this->mensaje =  ClassRegistry::init('Mensaje');
     }
 
 
@@ -103,6 +109,30 @@ class UsuariosUtilComponent extends Component{
                 'Usuario.fcm_registro')
         );
         return $this->usuario->find('first', $filtro);
+    }
+
+    /**
+     * Consultar Id mensaje a partir del Idusuario
+     * @param $idusuario
+     * @return array
+     */
+    public function consultarRegistroMensaje($idusuario){
+        $filtro = array(
+            'conditions' => array('Mensaje.usuario_id' => $idusuario),
+            'fields' => array('Mensaje.mensaje_id', 'Mensaje.usuariodestino_id',)
+        );
+        $sobreelmensaje = $this->mensaje->find('first', $filtro);
+        if(empty($sobreelmensaje['Mensaje']['mensaje_id'])) {
+            $flag = false;
+            $sobreelmensaje['Mensaje']['mensaje_id'] = 0;
+        }else{
+            $flag =true;
+        }
+        return $result = array (
+            'existe' => $flag,
+            'idmensaje'=> $sobreelmensaje['Mensaje']['mensaje_id'],
+            'destino' => $sobreelmensaje['Mensaje']['usuariodestino_id']
+        );
     }
 
 }

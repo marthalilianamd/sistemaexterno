@@ -78,43 +78,43 @@ class MensajesController extends AppController {
                         $this->Mensaje->create();
                         if ($this->Mensaje->save($this->request->data)) {
                             $this->Mensaje->saveField('usuariodestino_id', $datos['usuarios']['usuario_id']);
-                            $this->Mensaje->saveField('estado', 'Entregado');
+                            $this->Mensaje->saveField('estado', 'Entregado al móvil autorizado de enviar SMS');
                             $idusuariodestino = $datos['usuarios']['usuario_id'];
                             $this->set(compact( 'idusuariodestino'));
-                            $this->Flash->success(__("Mensaje enviado exitosamente al móvil ". $datosusuario['Usuario']['movil_numero']));
+                            $this->Flash->success(__("Mensaje enviado exitosamente al móvil autorizado ". $datosusuario['Usuario']['movil_numero']));
                             $this->UsuariosUtil->actualizarEstadoTokenUsuario($idusuariomensaje,'Vigente');
                             return $this->redirect(array('action' => 'index'));
                         } else {
-                            $this->Mensaje->saveField('estado', 'No entregado');
+                            $this->Mensaje->saveField('estado', 'No entregado al móvil autorizado de enviar SMS');
                             $this->Flash->set(__('El mensaje no pudo ser guardado en base de datos de este sistema externo'));
                             return $this->redirect(array('action' => 'index'));
                         }
                     }else
                         if($respuesta['respuestaenvio']->{"results"}[0]->{"error"} =='MissingRegistration'){
                             $this->Flash->set(__("Móvil sin token. No está registrado en la App. Mensaje no enviado al ". $datosusuario['Usuario']['movil_numero']));
-                            $this->Mensaje->saveField('estado', 'No entregado');
+                            $this->Mensaje->saveField('estado', 'No entregado al móvil autorizado enviar SMS');
                             $this->UsuariosUtil->actualizarEstadoTokenUsuario($idusuariomensaje,'No existe');
                             return $this->redirect(array('action' => 'index'));
                         }
                         if($respuesta['respuestaenvio']->{"results"}[0]->{"error"} =='InvalidRegistration'){
                             $this->Flash->set(__('Token del móvil inválido. Está corrupto!. Mensaje no enviado '));
-                            $this->Mensaje->saveField('estado', 'No entregado');
+                            $this->Mensaje->saveField('estado', 'No entregado al móvil autorizado de enviar SMS');
                             return $this->redirect(array('action' => 'index'));
                         }
                         if($respuesta['respuestaenvio']->{"results"}[0]->{"error"} =='NotRegistered'){
                             $this->Flash->set(__("Token del móvil caducado. Mensaje no enviado al ". $datosusuario['Usuario']['movil_numero']));
-                            $this->Mensaje->saveField('estado', 'No entregado');
+                            $this->Mensaje->saveField('estado', 'No entregado al móvil autorizado de enviar SMS');
                             $this->UsuariosUtil->actualizarEstadoTokenUsuario($idusuariomensaje,'Caducado');
                             return $this->redirect(array('action' => 'index'));
                         }
                         if($respuesta['respuestaenvio']->{"results"}[0]->{"error"} =='MessageTooBig'){
-                            $this->Mensaje->saveField('estado', 'No entregado');
+                            $this->Mensaje->saveField('estado', 'No entregado al móvil autorizado de enviar SMS');
                             $this->Flash->set(__("El mensaje excede el tamaño permitido por políticas. Por favor reducir su contenido". $datosusuario['Usuario']['movil_numero']));
                             return $this->redirect(array('action' => 'index'));
                         }
                 }else{
                     $this->Flash->set(__('Mensaje no enviado!'));
-                    $this->Mensaje->saveField('estado', 'No entregado');
+                    $this->Mensaje->saveField('estado', 'No entregado al móvil autorizado de enviar SMS');
                     $this->Flash->set(__('Error con la petición a la plataforma de mensajes Firebase'));
                     return $this->redirect(array('action' => 'index'));
                 }

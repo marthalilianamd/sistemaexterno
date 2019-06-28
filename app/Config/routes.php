@@ -42,7 +42,7 @@ Router::mapResources('mensajesws');
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.
  */
-	CakePlugin::routes();
+CakePlugin::routes();
 
 //Le dice a cakephp que parsee las extensiones
 //Especifica el formato de resultado (JSON, XML, RSS)

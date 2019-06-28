@@ -128,6 +128,7 @@ class Usuario extends AppModel {
         )
     );
 
+
     /**
      * Before isUniqueEmail
      * @param array $options

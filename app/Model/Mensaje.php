@@ -57,8 +57,7 @@ class Mensaje extends AppModel {
             'userDefined' => array(
                 'rule' => array('between', 1, 50),
                 //'message' => 'El mensaje no pueden enviarse vacio',
-                'allowEmpty' => false,
-                'required' => true,
+                //'allowEmpty' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
             ),
@@ -67,8 +66,8 @@ class Mensaje extends AppModel {
             'userDefined' => array(
                 'rule' => array('between', 1, 255),
                 //'message' => 'El mensaje no pueden enviarse vacio',
-                //'allowEmpty' => false,
-                //'required' => false,
+                'allowEmpty' => true,
+                'required' => false,
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
             ),
@@ -123,4 +122,6 @@ class Mensaje extends AppModel {
 			'order' => ''
 		)
 	);
+
+
 }
