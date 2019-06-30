@@ -10,7 +10,7 @@ App::import('Model', 'Usuario');
  * @property UsuariosUtilComponent $UsuariosUtil
  */
 
-class MensajesWsController extends AppController{
+class MensajeswsController extends AppController{
     //Componente para solicitudes HTTP REST - recibe y realiza acción
     //permite cambio de vista a tipo de contenido JSON
     public $components = array('RequestHandler','UsuariosUtil');
